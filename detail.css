@@ -1,0 +1,127 @@
+html, body{
+    width: 100%;
+    height: 100%;
+}
+.content {
+    /* 整個頁面 */
+    margin: 5% 10% 5%;
+}
+.container, .name_rating{display: block;}
+.detail {
+    /*照片+書名+評分*/
+    /* margin: 5% 0 45%; */
+    display: block;
+    /* position: relative; */
+}
+h3{
+    padding: 5px;
+}
+.comment {
+    /* 詳細評論 */
+    margin: 1em 0 1em;
+    font-size: 1em;
+    padding: 0.5em 0.5em 0.5em;
+    width: 100%;
+    border-color: rgb(217, 217, 217);
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+}
+
+@media (min-width: 200px) {
+    /* detail: vertical */
+    .head {
+        margin-top: 55px;
+    }
+
+    .detail {
+        margin: 0 0 5%;
+    }
+
+    .image {
+        float: center;
+        object-fit: contain;
+        width: 100%;
+        height: auto;
+    }
+
+    .name_rating {
+        float: left;
+        width: 100%;
+        height: 40%;
+        margin: 5% 0 5%
+    }
+
+    p {
+        margin-bottom: 5px;
+        /* color:rgb(124, 124, 124)  */
+    }
+    .rating{
+        text-indent: 2em;        
+    }
+}
+
+@media (min-width: 600px) {
+
+    /* detail: horizontal */
+    .head {
+        margin-top: 50px;
+    }
+
+    h2{
+        margin-bottom: 3%;
+    }
+    p{
+        margin-bottom: 3%;
+    }
+
+    .detail{
+        /* padding: 0 0 45%;
+        height: 40%; */
+    }
+    .container{
+        /* padding: 30%; */
+        margin: 0 0 3%;
+        width: 50%;
+        height: 100%;
+        float: left;
+        position: relative;
+        object-fit: contain;
+    }
+    .image{
+        height: 100%; 
+        /* max-width: auto; */ 
+        position: relative;
+        object-fit: contain;
+    }
+    .name_rating {
+        width: 50%;
+        height: 30%;
+        float: right;
+        margin: 0 0 3%;
+    }
+}
+
+@media (min-width: 992px) {
+    .head {
+        margin-top: 35px;
+    }
+
+}
+
+@media (min-width: 1200px) {
+    .head {
+        margin-top: 25px;
+    }
+    /* .image{
+        height: 20%;
+    } */
+    
+}
+
+footer {
+    margin: 0px;
+    padding: 20px;
+    background-color: rgb(217, 217, 217);
+
+}
