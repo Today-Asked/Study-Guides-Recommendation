@@ -44,7 +44,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     //echo "an error occurred when inserted into database";
                 }
             } else {
-                echo "<script language='javascript'>window.console.log('" . $Received_JsonParse['data']['error'] . "')</script>";
+                echo "<script language='javascript'>window.console.log('**" . $curl_result . "')</script>";
             }
         } else {
             echo "<script language='javascript'>window.console.log('an error occurred when uploading picture')</script>";
@@ -128,7 +128,7 @@ function test_input($data) {
 <body>
     <script>
         function fixing(){
-            alert("新功能，施工中");
+            alert("施工中 就跟雄女的大門一樣");
         }
     </script>
     <div id="header">
@@ -162,7 +162,7 @@ function test_input($data) {
                                 <a class="nav-link" href="questionnaire.php">撰寫回饋</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" onclick="javascript:fixing()">留言板</a>
+                                <a class="nav-link" href="tips.html">其他小知識！</a>
                             </li>
                             <li>
                                 <a class="nav-link" href="https://forms.gle/H1e8fs6Pp2gPj3xZ9" target="_blank">
@@ -309,8 +309,8 @@ function test_input($data) {
         Copyright © 2022 玉米糖粉. All rights reserved.<br>
         111 級雄女資研出品<br>
         Contact us:  
-        <a href="mailto:study.guides.recommend@gmail.com" target="_blank"><small>study.guides.recommend@gmail.com</small></a>
-
+          <a href="mailto:cy0802@gmail.com" target="_blank">Icing Sugar</a> and 
+          <a href="mailto:mao930710@gmail.com" target="_blank">Corn Syrup</a>
     </footer>
     <a href="#" style="position: fixed; bottom: 1%; right: 1%;"><img src="top.png" style="height: 2.5em;"></a>
     
