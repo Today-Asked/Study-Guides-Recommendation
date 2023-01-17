@@ -110,37 +110,42 @@ function _date($str){
   <link rel="icon" type="image/x-icon" href="icon.ico">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title><?php echo $name;?></title>
-
   <link rel="stylesheet" type="text/css" href="detail.css">
-
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
-
     window.onload=function(){
-
       if(window.screen.width >= 600){
-
         container = document.getElementById("container");
-
-        nrHeight = document.getElementById("name_rating").clientHeight.toString();
-
+        nrHeight = (document.getElementById("name_rating").clientHeight).toString();
         container.setAttribute("style","height: " + nrHeight + "px");
-
-        //alert("EY!")
-
       }
-
     }
 
-  </script>
-  <script>
-        function fixing()
+    function fixing()
         {
             alert("新功能，施工中");
         }
-    </script>
 
+    (function(){
+        emailjs.init("RhsmLYJSGkv4WFdO3");
+    })();
+
+    function oldCover(){
+        var message = {
+            bookID: '<?php echo $bookId ?>',
+            bookName: '<?php echo $name?>'
+        };
+        emailjs.send('service_ecyjr9k', 'template_egzx9ah', message)
+        .then(function(response) {
+          console.log('SUCCESS!', response.status, response.text);
+          alert("感謝告知，我們會盡快更新！");
+        }, function(error) {
+          console.log('FAILED...', error);
+          alert("抱歉，出了一點問題...");
+        });
+    }
+  </script>
 </head>
 
 
@@ -240,12 +245,10 @@ function _date($str){
       <div class="detail"> 
 
           <div class="container" id="container">
-
-            <img id = "image" class="image" src=<?php echo $picture;?> alt="<?php echo $name;?>"> <!--這裡放圖片-->
-
+            <img id = "image" class="image" src=<?php echo $picture;?> alt="<?php echo $name;?>"> <!--這裡放圖片-->            
           </div>
 
-          <div class="name_rating" id="name_rating" style="display: inline-block;">
+          <div class="name_rating" id="name_rating" style="display: inline-block; margin-bottom: 5%">
 
             <h2><?php echo $name?></h2>
 
@@ -262,7 +265,7 @@ function _date($str){
             <p class="rating">排版/美編/顏色 &#11088 <?php echo round($layout, 1);?></p>
 
             <p style="color:rgb(124, 124, 124)">（評分人數：<?php echo $dataAmount;?>）</p>
-
+            <button id="oldCover" class="btn btn-outline-success" onclick="oldCover()" style="margin: 1%">這本書不是這個封面</button>
           </div>
 
       </div>
@@ -309,7 +312,7 @@ function _date($str){
       <div>
         <center>
           <button class="btn btn-outline-success" style="margin: 2%;" onclick="location.href='/questionnaire.php?subject=<?php echo $subject?>&book=<?php echo $bookId?>'">去評論</button>
-          <button class="btn btn-outline-success" style="margin: 2%;" onclick="">找二手</button>
+          <a href='https://booksriver.q23rf.repl.co/get/id=<?php echo $bookId?>'><button class="btn btn-outline-success" style="margin: 2%;">找二手</button></a>
         </center>
       </div>
 
