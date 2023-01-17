@@ -39,8 +39,10 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
     }
     $threshold = mb_strlen($s, 'utf-8') / 2;
     echo "<script>alert('以下為資料庫內相似的書籍，請檢查是否有您要找的書籍\u000a";
+    $flag = 0;
     for($i = 1; $i < 200; $i = $i + 1){
         if($cnt[$i] > $threshold){
+            $flag = 1;
             $select = "SELECT name, subject, publisher FROM book WHERE id='$i'";
             $result = $connection->query($select);
             if($result->num_rows > 0){
@@ -48,6 +50,9 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
                 echo $row["publisher"] . "    " . $row["subject"] . "    " . $row["name"] . "\u000a";
             }
         }
+    }
+    if($flag == 0){
+        echo "\u000a沒有相似的書籍！";
     }
     echo "');</script>";
 }
