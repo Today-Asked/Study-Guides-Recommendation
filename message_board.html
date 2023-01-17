@@ -1,6 +1,7 @@
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZXCEF0Q5KK"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -9,6 +10,37 @@
         }
         gtag('js', new Date());
         gtag('config', 'G-ZXCEF0Q5KK');
+    </script>
+    <script>
+        $("document").ready(function(){
+            loadData(0);
+            function loadData(category){
+                $.ajax({
+                    url: '/msgBoard.php',
+                    method: "get",
+                    data: {
+                        type: category 
+                    },
+                    success: function(data){
+                        if(category == 0){
+                            $("#pills-studyPlan").html(data);
+                        } else {
+                            $("#pills-emotion").html(data);
+                        }
+                        
+                    },
+                    error: function(data){
+                        console.log(error);
+                    }
+                });
+            }
+            $("#studyPlan").click(function(){
+                loadData(0);
+            });
+            $("#emotion").click(function(){
+                loadData(1);
+            });
+        });
     </script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -115,7 +147,6 @@
         }
     </script>
     <title>留言板</title>
-    <link rel="stylesheet" type="text/css" href="message_board.css">
 </head>
 
 <body>
@@ -182,47 +213,28 @@
                     </li>
                 </ul>
             -->
-                <!-- box-shadow: 0px 3px 3px 2px rgb(196, 255, 213); clip-path: inset(0px -15px -10px -15px)-->
-                <div class="tab-content" id="pills-tabContent">
-                    <div class="tab-pane fade show active" id="pills-studyPlan" role="tabpanel" aria-labelledby="pills-studyPlan-tab" tabindex="0">
-                        <!--模板-->
-                        <div style="margin:1%">
-                            <strong>這是標題</strong><br>
-                            <div>這是內文，然後我在想換行的問題不知道怎麼辦。</div>
-                            <small style='color:rgb(157, 157, 157); float:right'>2023年1月23日</small><BR>
+            <!-- box-shadow: 0px 3px 3px 2px rgb(196, 255, 213); clip-path: inset(0px -15px -10px -15px)-->
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-studyPlan" role="tabpanel" aria-labelledby="pills-studyPlan-tab" tabindex="0">
+                    
+                </div>        
 
-                        </div>
-
-                        <!--記得水平線-->
-                        <hr style="margin-left: 1%; margin-right: 1%;">
-
-                        <div style="margin:1%">
-                            <strong>這是另一個標題</strong><br>
-                            <div>【我超會複製貼上】嗨學妹，我知道你們現在對於考試超級迷茫，不知道要從哪裡開始。<br>
-                                不過沒關係，這裡提供一些和學測有關的小知識，有什麼問題也都可以點下面的「Contact us」來問我們喔。<br>
-                                學長姐如果想分享其他經驗，也可以點右上角的意見回饋表單來告知我們喔！
-                            </div>
-                            <small style='color:rgb(157, 157, 157); float:right'>2023年1月22日</small><BR>
-                        </div>
-                    </div>        
-
-                    <div class="tab-pane fade" id="pills-emotion" role="tabpanel" aria-labelledby="pills-emotion-tab" tabindex="0">
-                        尚無人留言
-                    </div>
+                <div class="tab-pane fade" id="pills-emotion" role="tabpanel" aria-labelledby="pills-emotion-tab" tabindex="0">
+                    
                 </div>
-                    <!--留言區-->
-                        
-                        <form action="" method="" class="needs-validation" style="margin:1%">
-                            <strong style="margin:0.5em;">來留言吧！</strong>
-                            <textarea class="form-control" name="title" rows="1" cols="20" placeholder="標題（選填）" style="margin-bottom:1%;"></textarea>
-                            <textarea class="form-control" name="comment" rows="4" cols="50" placeholder="留下想說的話..." style="margin-bottom:1%;" required></textarea>
-                            <input type="hidden" name="theme" id="theme" value="studyPlan">
-                            <center><input type="submit" class="btn btn-outline-success" style="margin-bottom: 5%;"></center>
-                        </form>
-                
+            </div>
+            <!--留言區-->
+            <form action="/msgBoard.php" method="post" 
+                    class="needs-validation" style="margin:1%" novalidate enctype="multipart/form-data">
+                <strong style="margin:0.5em;">來留言吧！</strong>
+                <textarea class="form-control" name="title" rows="1" cols="20" placeholder="標題（選填）" style="margin-bottom:1%;"></textarea>
+                <textarea class="form-control" name="comment" rows="4" cols="50" placeholder="留下想說的話..." style="margin-bottom:1%;" required></textarea>
+                <input type="hidden" name="theme" id="theme" value="studyPlan">
+                <center><input type="submit" class="btn btn-outline-success" style="margin-bottom: 5%;"></center>
+            </form>
         </div>
     </div>
-    <footer style="margin: 0px; padding: 20px; background-color: rgb(217, 217, 217); text-align: center;  position: sticky;">
+        <footer style="margin: 0px; padding: 20px; background-color: rgb(217, 217, 217); text-align: center;  position: sticky;">
             Copyright © 2022 玉米糖粉. All rights reserved.<br>
             111 級雄女資研出品<br>
             Contact us:
@@ -231,6 +243,3 @@
     </div>
 
 </body>
-
-<?php
-?>
