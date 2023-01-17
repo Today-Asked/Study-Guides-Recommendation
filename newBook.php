@@ -13,44 +13,40 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $category = test_input($_POST["category"]);
     $publisher = test_input($_POST["publisher"]);
     //echo "<script language='javascript'>window.console.log('" . $publisher . "')</script>";
-    $check = "SELECT id from book WHERE name='$name' AND publisher='$publisher' AND subject='$subject'";
-    $query = $connection->query($check);
-    if($query->num_rows > 0){
-        echo "<script language='javascript'>alert('此書籍已經存在');location.href='/questionnaire.php';</script>";
-    } else {
-        if($_FILES['picture']['error'] === UPLOAD_ERR_OK){
-            $clientId = 'bea210f369c761e';
-            $img = file_get_contents($_FILES['picture']['tmp_name']);
-            $curl_post_array = array('image' => base64_encode($img));
-            $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, 'https://api.imgur.com/3/image');
-            curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Client-ID ' . $clientId));
-            curl_setopt($curl, CURLOPT_POST, 1);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $curl_post_array);
-            $curl_result = curl_exec($curl);
-            curl_close ($curl);
-            $Received_JsonParse = json_decode($curl_result, true);
-            if ($Received_JsonParse['success'] == true) {
-                $ImgURL = $Received_JsonParse['data']['link'];
-                $insert = "INSERT INTO book (subject, name, exam, category, publisher, picture) 
-                    VALUES ('$subject', '$name', '$exam', '$category', '$publisher', '$ImgURL')";
-                
-                if($connection->query($insert) === true){
-                    echo "<script language='javascript'>alert('成功新增書籍，感謝您的幫忙！');location.href='/newBook.php';</script>";
-                    //echo "success";
-                } else {
-                    echo "<script language='javascript'>alert('抱歉，資料庫發生錯誤，請再試一次');location.href='/newBook.php';</script>";
-                    //echo "an error occurred when inserted into database";
-                }
+
+    if($_FILES['picture']['error'] === UPLOAD_ERR_OK){
+        $clientId = 'bea210f369c761e';
+        $img = file_get_contents($_FILES['picture']['tmp_name']);
+        $curl_post_array = array('image' => base64_encode($img));
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, 'https://api.imgur.com/3/image');
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Client-ID ' . $clientId));
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $curl_post_array);
+        $curl_result = curl_exec($curl);
+        curl_close ($curl);
+        $Received_JsonParse = json_decode($curl_result, true);
+        if ($Received_JsonParse['success'] == true) {
+            $ImgURL = $Received_JsonParse['data']['link'];
+            $insert = "INSERT INTO book (subject, name, exam, category, publisher, picture) 
+                VALUES ('$subject', '$name', '$exam', '$category', '$publisher', '$ImgURL')";
+            
+            if($connection->query($insert) === true){
+                echo "<script language='javascript'>alert('成功新增書籍，感謝您的幫忙！');location.href='/newBook.php';</script>";
+                //echo "success";
             } else {
-                echo "<script language='javascript'>window.console.log('" . $Received_JsonParse['data']['error'] . "')</script>";
+                echo "<script language='javascript'>alert('抱歉，資料庫發生錯誤，請再試一次');location.href='/newBook.php';</script>";
+                //echo "an error occurred when inserted into database";
             }
         } else {
-            echo "<script language='javascript'>window.console.log('an error occurred when uploading picture')</script>";
-            echo "<script language='javascript'>alert('抱歉，上傳圖片發生錯誤，請再試一次');location.href='/newBook.php';</script>";
+            echo "<script language='javascript'>window.console.log('**" . $curl_result . "')</script>";
         }
+    } else {
+        echo "<script language='javascript'>window.console.log('an error occurred when uploading picture')</script>";
+        echo "<script language='javascript'>alert('抱歉，上傳圖片發生錯誤，請再試一次');location.href='/newBook.php';</script>";
     }
+    
 }
 
 function test_input($data) {
@@ -67,12 +63,39 @@ function test_input($data) {
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZXCEF0Q5KK"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-ZXCEF0Q5KK');
+    </script>
+    <script>
+        $('document').ready(function(){
+            $("#bookname").blur(function(){
+                var search = $(this).val();
+                //console.log("search: " + search);
+                if(search != ''){
+                    loadData(search);
+                }
+            })
+
+            function loadData(query){
+                $.ajax({
+                    url: "/search.php",
+                    method: "get",
+                    data: {
+                        search: query
+                    },
+                    success: function(data){
+                        $("#searchResult").html(data);
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                })
+            }
+        });
     </script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -82,9 +105,8 @@ function test_input($data) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
     </script>
-    <script src="jquery.js"></script>
     <link rel="icon" type="image/x-icon" href="icon.ico">
-<link rel="shortcut icon" type="image/x-icon" href="icon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="icon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>新增參考書</title>
     <!--<meta charset="UTF-8">-->
@@ -128,7 +150,7 @@ function test_input($data) {
 <body>
     <script>
         function fixing(){
-            alert("新功能，施工中");
+            alert("施工中 就跟雄女的大門一樣");
         }
     </script>
     <div id="header">
@@ -162,7 +184,7 @@ function test_input($data) {
                                 <a class="nav-link" href="questionnaire.php">撰寫回饋</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" onclick="javascript:fixing()">留言板</a>
+                                <a class="nav-link" href="tips.html">其他小知識！</a>
                             </li>
                             <li>
                                 <a class="nav-link" href="https://forms.gle/H1e8fs6Pp2gPj3xZ9" target="_blank">
@@ -175,7 +197,7 @@ function test_input($data) {
             </div>
         </nav>
     </div>
-    <div class="head">你沒看到你沒看到你沒看到</div>
+    <div class="head" id="searchResult">你沒看到你沒看到你沒看到</div>
     <!--放著占位子-->
 <div class="wrapping" style="margin-bottom: -20px; min-height: 100%;">
     <div class="content">
@@ -310,7 +332,6 @@ function test_input($data) {
         111 級雄女資研出品<br>
         Contact us:  
         <a href="mailto:study.guides.recommend@gmail.com" target="_blank"><small>study.guides.recommend@gmail.com</small></a>
-
     </footer>
     <a href="#" style="position: fixed; bottom: 1%; right: 1%;"><img src="top.png" style="height: 2.5em;"></a>
     

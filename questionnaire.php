@@ -52,9 +52,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         echo "<script>window.console.log('fail to update data')</script>";
     }
     
-    $insert = "INSERT INTO questionnaire (book, overall, content, difficulty, answer, layout, comment) 
-        VALUES ('$id', '$overall', '$content', '$difficulty', '$answer', '$layout', '$comment')";
+    $acceptedChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890@#%^&*+=-_";
+    $redeemCode = substr(str_shuffle($acceptedChar), 0, 7);
+    $insert = "INSERT INTO questionnaire (book, overall, content, difficulty, answer, layout, comment, redeemCode) 
+        VALUES ('$id', '$overall', '$content', '$difficulty', '$answer', '$layout', '$comment', '$redeemCode')";
     if($connection->query($insert) === true){
+        //echo "<script language='javascript'>alert('成功新增評論，感謝您的協助！\u000a您的兌換碼: " . $redeemCode . "（可至合作網站書愛流動兌換愛心幣）');</script>";
         echo "<script language='javascript'>alert('成功新增評論，感謝您的協助！');location.href='/questionnaire.php';</script>";
     } else {
         echo "<script language='javascript'>alert('抱歉，發生錯誤，請再試一次');location.href='/questionnaire.php';</script>";

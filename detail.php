@@ -275,7 +275,7 @@ function _date($str){
 
         <?php
 
-        $select = "SELECT date, comment FROM questionnaire WHERE book='$bookId' ORDER BY id DESC";
+        $select = "SELECT date, comment FROM questionnaire WHERE book='$bookId' AND review=1 ORDER BY id DESC";
 
         $_result = $connection->query($select);
 
