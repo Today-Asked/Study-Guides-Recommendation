@@ -21,36 +21,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $answer = test_input($_POST["answer"]);
     $layout = test_input($_POST["layout"]);
     $comment = test_input($_POST["comment"]);
-
-    $selectBook = "SELECT * FROM book WHERE id='$id'";
-    $result = $connection->query($selectBook);
-    if($result->num_rows > 0){
-        while($row = $result->fetch_assoc()){
-            $dataAmount = $row['dataAmount'];
-            $_overall = $row['overall'];
-            $_content = $row['content'];
-            $_difficulty = $row['difficulty'];
-            $_answer = $row['answer'];
-            $_layout = $row['layout'];
-            echo "<script>window.console.log('dataAmount: " . $dataAmount . "')</script>";
-        }
-    } else {
-        echo "<script>window.console.log('select data error')</script>"; 
-    }
-
-    $newOverall = ($dataAmount * $_overall + $overall) / ($dataAmount + 1);
-    $newContent = ($dataAmount * $_content + $content) / ($dataAmount + 1);
-    $newDifficulty = ($dataAmount * $_difficulty + $difficulty) / ($dataAmount + 1);
-    $newAnswer = ($dataAmount * $_answer + $answer) / ($dataAmount + 1);
-    $newLayout = ($dataAmount * $_layout + $layout) / ($dataAmount + 1);
-    $newDataAmount = $dataAmount + 1;
-    $updateBook = "UPDATE book SET dataAmount='$newDataAmount', overall='$newOverall', content='$newContent', 
-        difficulty='$newDifficulty', answer='$newAnswer', layout='$newLayout' WHERE id='$id'";
-    if($connection->query($updateBook) === true){
-        echo "<script>window.console.log('update data successfully')</script>";
-    } else {
-        echo "<script>window.console.log('fail to update data')</script>";
-    }
     
     $acceptedChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890@#%^&*+=-_";
     $redeemCode = substr(str_shuffle($acceptedChar), 0, 7);
@@ -58,8 +28,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         VALUES ('$id', '$overall', '$content', '$difficulty', '$answer', '$layout', '$comment', '$redeemCode')";
     if($connection->query($insert) === true){
         //echo "<script language='javascript'>alert('成功新增評論，感謝您的協助！\u000a您的兌換碼: " . $redeemCode . "（可至合作網站書愛流動兌換愛心幣）');</script>";
+        echo "
+        <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js'></script>
+        <script>
+          emailjs.init('RhsmLYJSGkv4WFdO3');
+            var tmp = {type: '評論'};
+            emailjs.send('service_ecyjr9k', 'template_qfesiq6', tmp)
+                    .then(function(response) {
+                        console.log('SUCCESS!');
+                    }, function(error) {
+                        console.log('FAILED...', error);
+                    });
+        </script>";
         echo "<script language='javascript'>alert('成功新增評論，感謝您的協助！');location.href='/questionnaire.php';</script>";
-    } else {
+        
+      } else {
         echo "<script language='javascript'>alert('抱歉，發生錯誤，請再試一次');location.href='/questionnaire.php';</script>";
     }
 }
@@ -134,6 +117,11 @@ function test_input($data) {
         }
   </style>
   <script src="book_questionnaire.js"></script>
+  <script type="text/javascript">
+      
+      
+    
+  </script>
   <title>撰寫回饋</title>
 </head>
 
@@ -218,7 +206,7 @@ function test_input($data) {
         </div>
       
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" class="needs-validation"
-      novalidate>
+      novalidate onsubmit="return newComment();">
       <label>科目：</label>
 
       <select class="form-select" name="subject"
@@ -240,7 +228,7 @@ function test_input($data) {
       </select><br>
 
       <label>書名：</label>
-      <select class="form-select" name="book" required>
+      <select class="form-select" name="book" id="book" required>
         <?php
         if(isset($get_bookId)){
             $select = "SELECT name FROM book WHERE id='$get_bookId'";
@@ -336,7 +324,7 @@ function test_input($data) {
       <div class="invalid-feedback">請輸入評價</div>
       <br>
 
-      <center><input type="submit" class="btn btn-outline-success" style="margin-bottom: 5%;"></center>
+      <center><input type="submit" class="btn btn-outline-success" id="submitBtn" style="margin-bottom: 5%;"></center>
     </form>
   </div>
   <footer style="margin: 0px; padding: 20px; background-color: rgb(217, 217, 217); text-align: center;">
