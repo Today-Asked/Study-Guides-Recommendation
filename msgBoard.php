@@ -26,6 +26,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST") { // insert data
     }
     $insert = "INSERT INTO msgBoard (category, title, msg, redeemCode) VALUES ('$category', '$title', '$msg', '$redeemCode')";
     if($connection->query($insert) === true){
+        echo "
+        <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js'></script>
+        <script>
+          emailjs.init('RhsmLYJSGkv4WFdO3');
+            var tmp = {type: '留言'};
+            emailjs.send('service_ecyjr9k', 'template_qfesiq6', tmp)
+                    .then(function(response) {
+                        console.log('SUCCESS!');
+                    }, function(error) {
+                        console.log('FAILED...', error);
+                    });
+        </script>";
         echo "<script>alert('留言成功，經審核後就會出現在留言板上囉！');location.href = '/message_board.html';</script>";
         //echo "<script>alert('留言成功，經審核後就會出現在留言板上囉！\u000a您的兌換碼: '" . $redeemCode . "（審核通過後可至合作網站書愛流動兌換愛心幣）');location.href = '/message_board.html';</script>";
     } else {
