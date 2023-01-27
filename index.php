@@ -43,100 +43,12 @@
 }
 </script>
   <link rel="icon" type="image/x-icon" href="icon.ico">
-<link rel="shortcut icon" type="image/x-icon" href="icon.ico">
+  <link rel="shortcut icon" type="image/x-icon" href="icon.ico">
+  <link rel="stylesheet" type="text/css" href="index.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>參考書推薦平台</title>
   <style>
-    body {
-      margin: 0px;
-      padding: 0px;
-    }
-
-    @media (min-width: 200px) {
-      .content {
-        margin: 5% 10% 5%;
-      }
-
-      .head {
-        margin-top: 55px;
-      }
-      .card{
-        margin: 5% 1% 5%
-      }
-    }
-
-    @media (min-width: 768px) {
-      .content {
-        margin: 5% 10% 5%;
-      }
-
-      .head {
-        margin-top: 50px;
-      }
-      .card{
-        margin: 5% 15% 5%
-      }
-    }
-
-    @media (min-width: 992px) {
-      .content {
-        margin: 5% 15% 5%;
-      }
-
-      .head {
-        margin-top: 35px;
-      }
-      .card{
-        margin: 5% 20% 5%
-      }
-    }
-
-    @media (min-width: 1200px) {
-      .content {
-        margin: 2.5% 20% 2.5%;
-      }
-
-      .head {
-        margin-top: 25px;
-      }
-      .card{
-        margin: 5% 25% 5%
-      }
-    }
-
-    .title {
-      background-color: rgb(0, 0, 0);
-      background-color: rgba(0, 0, 0, 0.4);
-      position: center;
-      top: 50%;
-      left: 50%;
-      width: 80%;
-      padding: 20px;
-      text-align: center;
-
-    }
-
-    .backdrop {
-      padding: 15% 0 15%;
-      background: url('index.webp');
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
-      width: 100%;
-      height: 10%;
-    }
-
-    #header {
-      display: table;
-      margin: 0 auto;
-    }
-
-    footer {
-      margin: 0px;
-      padding: 20px;
-      background-color: rgb(217, 217, 217);
-
-    }
+    
   </style>
   <script>
         function fixing()
@@ -150,7 +62,7 @@
   <div id="header">
     <nav class="navbar navbar-light fixed-top" style="background-color: #94c0af" ;>
       <div class="container-fluid">
-        <a class="navbar-brand" href="index.html"><img src="https://i.imgur.com/vkflx0C.png"
+        <a class="navbar-brand" href="index.php"><img src="https://i.imgur.com/vkflx0C.png"
             style="object-fit: cover; height: 55px;"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
           aria-controls="offcanvasNavbar">
@@ -176,7 +88,7 @@
                 <a class="nav-link" href="questionnaire.php">撰寫回饋</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#" onclick="javascriipt:fixing()">留言板</a>
+                <a class="nav-link" href="message_board.html" onclick="">留言板</a>
               </li>
               <li>
                 <a class="nav-link" href="https://forms.gle/H1e8fs6Pp2gPj3xZ9" target="_blank">
@@ -192,52 +104,92 @@
   <center>
     <div class="head">hi</div>
     <div>
-      <div class="backdrop">
-        <div class="title">
-          <h6 style="color: white; font-size: 1.2em;">你有沒有想過，現在離學測還有多久？</h6>
+      <div id="backdrop">
+        <div id="title">
           <h1 style="color: white; font-size: 3em;">
-            <strong>請加油。</strong>
+            <strong>參考書推薦平台</strong>
           </h1>
-          <h6 style="color: white; font-size: 1em;">現在挑書還來得及</h6>
+          <h6 style="color: white; font-size: 1.2em;">專為高中生打造的參考書交流區</h6>
+          <h6 style="color: white; font-size: 1em;">你有沒有想過，現在離學測還有多久？</h6>
           <a href="query.php" type="button" class="btn btn-lg"
-            style="background-color: #487878; color: white;">查詢推薦清單</a>
+            style="background-color: #487878; color: white;">開始搜尋</a>
         </div>
       </div>
     </div>
-    
+   
 
-    <div class="content" style="margin-bottom: 2em">
-      <h3>About this Website</h3>
-      遙想當年聽到學姊考完學測，大家互相感慨著「我們也是準學測生了」的空洞；<br>
-      再到後來書單一家一家發下，而我們如無頭蒼蠅般爭先訂購，彷彿再晚一點，就會錯失買書的機會。<br>
-      <h5 style="margin: 10px">可是啊可是，要買什麼？</h5>
-      就算到了現場還是不知道要買什麼，挑了一兩個小時還是沒有頭緒，生怕會買到不合適的書。<br>
-      那些功課很好的學姐買的書，不知道是不是真的適合我？<br>
-      對！我們也曾陷在這種泥淖中！<br>
-      這就是為什麼我們決定架設這個參考書推薦網，讓學妹能夠參考之前學姊的使用心得，<br>
-      希望能夠幫助到各位學妹們，而也希望買了書的大家能不吝分享意見，一起讓網站更好！<br>
-      *網站內的資訊都是個人觀感僅供參考，如果買到雷請不要來打我們。<br>
+    <div class="content" id="intro" style="margin-bottom: 2em; float: left">
+      <h3>關於參考書推薦平台</h3>
+      參考書推薦平台致力於提供一個線上的資訊流通空間，期能透過使用者的互助互利，讓彼此從中受益。
+      與一般的購書網站不同，我們沒有任何商業利益導向，一切評論都是由熱心學長姐自主填寫，
+      並且評論皆是經過人工審核、評斷為對其他使用者有幫助後，才會出現在網頁上，
+      為的是讓每個使用者都能夠得知一本書最真實的樣貌。
     </div>
-    <div class="content">
-      <h3>現在就點擊右上按鈕，開始搜尋想要的書吧！</h3>
+    <div class="content" id="instruction">
+      <h3>使用方法</h3>
+      <div class="icon" id="list">
+        <img class="image" src="recommend.png" alt="Exam icons created by RIkas Dzihab - Flaticon">
+        <strong><p style="margin: 0">瀏覽清單</p></strong>
+        <p>如果你想找找大家推薦的參考書，那可以用我們各式各樣的篩選器去找出自己最喜歡的一本。評分排序由高到低。</p>
+        <a href="query.php" type="button" class="btn btn-lg"
+            style="background-color: #487878; color: white;"><span>現在去<i class="fa-solid fa-paper-plane"></i></span></a>
+      </div>
+      <div class="icon" id="feedback">
+        <img class="image" src="feedback.png" alt="Form icons created by Freepik - Flaticon">
+        <strong><p style="margin: 0">撰寫回饋</p></strong>
+        <p>如果你是剛從大考苦海脫離的退役戰士，歡迎來為那些與你一路相伴走來的參考書撰寫心得，回饋給下屆學弟妹。</p>
+        <a href="questionnaire.php" type="button" class="btn btn-lg"
+            style="background-color: #487878; color: white;">現在去<i class="fa-solid fa-paper-plane"></i></a>
+      </div>
+      <div class="icon" id="share">
+        <img class="image" src="comment.png" alt="Emoji icons created by Smashicons - Flaticon">
+        <strong><p style="margin: 0">留下心情</p></strong>
+        <p>如果你只是進來走走逛逛，或者想分享自己的讀書方法，也歡迎你在留言板下留下你的心情以及想分享的事物喔！</p>
+        <a href="message_board.html" type="button" class="btn btn-lg"
+            style="background-color: #487878; color: white;">現在去<i class="fa-solid fa-paper-plane"></i></a>
+      </div>
     </div>
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">電子報...訂閱(?)</h5>
-        <p class="card-text">如果願意支持我們的網站，或是還沒有時間撰寫回饋，歡迎留下您的Email，我們會不定期發送最新動態提醒喔！</p>
-        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post">  
-          <input type="email" class="form-control" name="email" placeholder="example@gmail.com" required>
-          <input type="submit" value="送出！" class="btn btn-success" style="margin: 5px">
-        </form>
-        </div>
+    <div class="content" id="collaborate">
+      <h3>合作夥伴-書愛流動</h3>
+      <p>
+        「<a href="https://booksriver.q23rf.repl.co/">書愛流動</a>」是一個讓二手學習用書流動的平台。還有很多簡介還沒有打上來。
+      </p>
+      <div class="icon" id="find">
+        <img class="" src="find.png" alt="Emoji icons created by Smashicons - Flaticon">
+        <strong><p>找二手更便利</p></strong>
+        <p>在書籍的詳情頁面底部，按下「找二手」按鈕即可直接連至書愛流動的官網，找找有沒有人捐贈這本書。</p>
+      </div>
+      <div class="icon" id="badge">
+        <img class="" src="badge.png" alt="Emoji icons created by Smashicons - Flaticon">
+        <strong><p>具徽章更可信</p></strong>
+        <p>曾經在書愛流動平台捐書或取書的用戶，其撰寫的評論將會有特別徽章標記，使該則評論更具有可信度。</p>
+      </div>
+      <div class="icon" id="coin">
+        <img class="" src="coin.png" alt="Emoji icons created by Smashicons - Flaticon">
+        <strong><p>留言賺愛心幣</p></strong>
+        <p>凡是為參考書評分或在留言版留言，經人工審核通過後便能獲得愛心幣，在書愛流動網站換取參考書籍。</p>
+      </div>
+    </div>
+  
+    <div id="card">
+      <div class="card content">
+        <div class="card-body">
+          <h5 class="card-title">電子報訂閱</h5>
+          <p class="card-text">如果願意支持我們的網站，或是還沒有時間撰寫回饋，歡迎留下您的Email，我們會不定期發送最新動態提醒喔！</p>
+          <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post">  
+            <input type="email" class="form-control" name="email" placeholder="example@gmail.com" required>
+            <input type="submit" value="送出！" class="btn btn-success" style="margin: 5px">
+          </form>
+          </div>
+      </div>
     </div>
     <a href="#" style="position: fixed; bottom: 1%; right: 1%;"><img src="top.png" style="height: 2.5em;"></a>
-    <footer style="margin: 0px; padding: 20px; background-color: rgb(217, 217, 217);">
-      Copyright © 2022 玉米糖粉. All rights reserved.<br>
-      111 級雄女資研出品<br>
-      Contact us:
-      <a href="mailto:study.guides.recommend@gmail.com" target="_blank"><small>study.guides.recommend@gmail.com</small></a>
-
+    <footer style="margin: 0px; padding: 20px; background-color: rgb(217, 217, 217); text-align: center;  position: sticky;">
+      <a href="https://github.com/Today-Asked/Study-Guides-Recommendation" target="_blank" style="color:#000000"><small>Github</small></a>
+      &nbsp;
+      <a href="https://www.instagram.com/study_guides_recommend/" target="_blank" style="color:#000000"><small>Instagram</small></a>
+      &nbsp;
+      <a href="mailto:study.guides.recommend@gmail.com" target="_blank" style="color:#000000"><small>Contact us</small></a>
     </footer>
   </center>
 </body>
@@ -262,16 +214,26 @@ $email = "";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   if(!empty($_POST["email"]))  $email = test_input($_POST["email"]);
-  //echo "<script language='javascript'>console.log(" . "$email" . ");</script>";
-  $insert = "INSERT INTO mail (email) VALUES ('$email')";
-  if($connection->query($insert) === true){
-    //echo "<script language='javascript'>console.log('success');</script>";
-    echo "<script language='javascript'>alert('成功訂閱，感謝您的支持！');location.href='/index.php';</script>";
-    //echo "success";
-  } else {
-    //echo "<script language='javascript'>console.log('error');</script>";
-    echo "<script language='javascript'>alert('抱歉，發生錯誤，請再試一次！');location.href='/index.php';</script>";
-    //echo "an error occurred when inserted into database";
-  }
+  $postdata = json_encode(array("email" => $email));
+  echo "<script>console.log('" . $postdata . "')</script>";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, "https://connect.mailerlite.com/api/subscribers");
+  curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'Content-type: application/json', 
+    'Accept: application/json', 
+    'Authorization: ' . $mailerliteAPIToken
+  ]);
+  curl_setopt($ch,CURLOPT_POST, true);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  $result = curl_exec($ch);
+  $error = curl_error($ch);
+  $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+  //echo "<script>console.log('" . $error . " * " . $statusCode . " * " . $result . "');</script>";
+  curl_close($ch);
+  if($statusCode == "201")  echo "<script>alert('訂閱成功，感謝您的支持！');</script>";
+  else if($statusCode == "200")  echo "<script>alert('您已經訂閱過囉，再次感謝您的支持！');</script>";
+  else if($statusCode == "422") echo "<script>alert('您的電子郵件格式不正確，請再試一次');</script>";
+  else echo "<script>alert('訂閱失敗，請再試一次或連繫網站管理者');</script>";
 }
 ?>
