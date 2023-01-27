@@ -6,11 +6,15 @@ if($connection->error) die("database connection error!");
 $connection->set_charset("utf8");
 
 $subject = $book = $category = $subcategory = $overall = $content = $difficulty = $answer = $layout = $comment = "";
-
+$bookriver = 0;
 if($_SERVER["REQUEST_METHOD"] == "GET"){
     $get_subject = $_GET["subject"];
     $get_bookId = $_GET["book"];
     //echo $get_subject;
+    if(isset($_GET["code"])){
+      $code = $_GET["code"];
+      echo "<script>window.onload = function(){ document.getElementById('bookriver').setAttribute('value', '" . $code . "'); }</script>";
+    }
 }
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -21,11 +25,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $answer = test_input($_POST["answer"]);
     $layout = test_input($_POST["layout"]);
     $comment = test_input($_POST["comment"]);
+    $code = test_input($_POST["bookriver"]);
+    $bookriver = 0;
+    if($code != "none"){
+      $sum = 0;
+      for($i = 0; $i < 5; $i = $i + 1) $sum = $sum + (int)$code[$i+1] * $verifyConst[$i];
+      if($code[0] == $sum % 10)  $bookriver = 1;
+    }
     
     $acceptedChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890@#%^&*+=-_";
     $redeemCode = substr(str_shuffle($acceptedChar), 0, 7);
-    $insert = "INSERT INTO questionnaire (book, overall, content, difficulty, answer, layout, comment, redeemCode) 
-        VALUES ('$id', '$overall', '$content', '$difficulty', '$answer', '$layout', '$comment', '$redeemCode')";
+    $insert = "INSERT INTO questionnaire (book, overall, content, difficulty, answer, layout, comment, redeemCode, bookriver) 
+        VALUES ('$id', '$overall', '$content', '$difficulty', '$answer', '$layout', '$comment', '$redeemCode', '$bookriver')";
     if($connection->query($insert) === true){
         //echo "<script language='javascript'>alert('成功新增評論，感謝您的協助！\u000a您的兌換碼: " . $redeemCode . "（可至合作網站書愛流動兌換愛心幣）');</script>";
         echo "
@@ -40,8 +51,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         console.log('FAILED...', error);
                     });
         </script>";
-        echo "<script language='javascript'>alert('成功新增評論，感謝您的協助！');location.href='/questionnaire.php';</script>";
-        
+        if($bookriver){
+          echo "<script language='javascript'>alert('Hello, 來自書愛流動的使用者\u000a成功新增評論，感謝您的協助！');location.href='/questionnaire.php';</script>";
+        } else {
+          echo "<script language='javascript'>alert('成功新增評論，感謝您的協助！');location.href='/questionnaire.php';</script>";
+        }
       } else {
         echo "<script language='javascript'>alert('抱歉，發生錯誤，請再試一次');location.href='/questionnaire.php';</script>";
     }
@@ -77,7 +91,7 @@ function test_input($data) {
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
   </script>
   <link rel="icon" type="image/x-icon" href="icon.ico">
-<link rel="shortcut icon" type="image/x-icon" href="icon.ico">
+  <link rel="shortcut icon" type="image/x-icon" href="icon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     button:hover{
@@ -210,7 +224,7 @@ function test_input($data) {
       <label>科目：</label>
 
       <select class="form-select" name="subject"
-        onchange="window.location='<?php echo $PHP_SELF;?>?subject='+this.value" required>
+        onchange="window.location='<?php echo $PHP_SELF;?>?subject='+this.value+'&code='+document.getElementById('bookriver').getAttribute('value');" required>
         <option value="    "> </option>
         <option value="國文" <?php if(isset($get_subject) && $get_subject === "國文") echo "selected";?>>國文</option>
         <option value="數學" <?php if(isset($get_subject) && $get_subject === "數學") echo "selected";?>>數學</option>
@@ -323,7 +337,7 @@ function test_input($data) {
       <textarea class="form-control" name="comment" rows="10" cols="50" required></textarea>
       <div class="invalid-feedback">請輸入評價</div>
       <br>
-
+      <input type="hidden" name="bookriver" id="bookriver" value="none">
       <center><input type="submit" class="btn btn-outline-success" id="submitBtn" style="margin-bottom: 5%;"></center>
     </form>
   </div>
