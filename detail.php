@@ -110,7 +110,7 @@ function _date($str){
   <link rel="icon" type="image/x-icon" href="icon.ico">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?php echo $name;?></title>
+  <title><?php echo $name;?> 評價</title>
   <link rel="stylesheet" type="text/css" href="detail.css">
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
@@ -130,7 +130,12 @@ function _date($str){
     (function(){
         emailjs.init("RhsmLYJSGkv4WFdO3");
     })();
-
+    function confirmEmail(){
+      var check=confirm("感謝告知，我們將會傳送email提醒開發者更換封面。")
+      if(check){
+        oldCover();
+      }
+    }
     function oldCover(){
         var message = {
             bookID: '<?php echo $bookId ?>',
@@ -139,7 +144,7 @@ function _date($str){
         emailjs.send('service_ecyjr9k', 'template_egzx9ah', message)
         .then(function(response) {
           console.log('SUCCESS!', response.status, response.text);
-          alert("感謝告知，我們會盡快更新！");
+          alert("已寄出郵件，謝謝您的合作，我們會盡快更新！");
         }, function(error) {
           console.log('FAILED...', error);
           alert("抱歉，出了一點問題...");
@@ -210,7 +215,7 @@ function _date($str){
 
               <li class="nav-item">
 
-                <a class="nav-link" href="#" onclick="javascript:fixing()">留言板</a>
+                <a class="nav-link" href="message_board.html" onclick="">留言板</a>
 
               </li>
 
@@ -265,7 +270,8 @@ function _date($str){
             <p class="rating">排版/美編/顏色 &#11088 <?php echo round($layout, 1);?></p>
 
             <p style="color:rgb(124, 124, 124)">（評分人數：<?php echo $dataAmount;?>）</p>
-            <button id="oldCover" class="btn btn-outline-success" onclick="oldCover()" style="margin: 1%">這本書不是這個封面</button>
+            
+            <button id="oldCover" class="btn btn-outline-success" onclick="confirmEmail()" style="margin: 1%">這本書不是這個封面</button>
           </div>
 
       </div>
@@ -321,14 +327,10 @@ function _date($str){
   </div>
   
   <footer style="margin: 0px; padding: 20px; background-color: rgb(217, 217, 217); text-align: center;  position: sticky;">
-
-      Copyright © 2022 玉米糖粉. All rights reserved.<br>
-
-      111 級雄女資研出品<br>
-
-      Contact us: 
-
-      <a href="mailto:study.guides.recommend@gmail.com" target="_blank"><small>study.guides.recommend@gmail.com</small></a>
-
-    </footer>
-    <a href="#" style="position: fixed; bottom: 1%; right: 1%;"><img src="top.png" style="height: 2.5em;"></a>
+    <a href="https://github.com/Today-Asked/Study-Guides-Recommendation" target="_blank" style="color:#000000"><small>Github</small></a>
+    &nbsp;
+    <a href="https://www.instagram.com/study_guides_recommend/" target="_blank" style="color:#000000"><small>Instagram</small></a>
+    &nbsp;
+    <a href="mailto:study.guides.recommend@gmail.com" target="_blank" style="color:#000000"><small>Contact us</small></a>
+  </footer>
+  <a href="#" style="position: fixed; bottom: 1%; right: 1%;"><img src="top.png" style="height: 2.5em;"></a>
