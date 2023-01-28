@@ -29,7 +29,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 $review = $row["review"];
             }
             echo "data to delete: " . $bookId . " " . $overall . " " . $content . " " . $difficulty . " " . $answer . " " . $layout . "<br>";
-            if($review === 1){
+            if($review == 1){
                 $selectBook = "SELECT * FROM book WHERE id='$bookId'";
                 $_result = $connection->query($selectBook);
                 if($_result->num_rows > 0){
