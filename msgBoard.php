@@ -38,8 +38,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") { // insert data
                         console.log('FAILED...', error);
                     });
         </script>";
-        echo "<script>alert('留言成功，經審核後就會出現在留言板上囉！');location.href = '/message_board.html';</script>";
-        //echo "<script>alert('留言成功，經審核後就會出現在留言板上囉！\u000a您的兌換碼: '" . $redeemCode . "（審核通過後可至合作網站書愛流動兌換愛心幣）');location.href = '/message_board.html';</script>";
+        //echo "<script>alert('留言成功，經審核後就會出現在留言板上囉！');location.href = '/message_board.html';</script>";
+        echo "<script>alert('留言成功，經審核後就會出現在留言板上囉！\u000a您的兌換碼: '" . $redeemCode . "（審核通過後可至合作網站書愛流動兌換愛心幣）');location.href = '/message_board.html';</script>";
     } else {
         echo "<script>alert('留言失敗，請再試一次');location.href = '/message_board.html';</script>";
     }
@@ -58,7 +58,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") { // insert data
             }
             echo "<div style='margin:1%'>";
             echo "<strong>" . $row["title"] . "</strong><br>";
-            echo "<div>" . $row["msg"] . "</div>";
+            echo "<div>" . nl2br($row["msg"]) . "</div>";
             echo "<small style='color:rgb(157, 157, 157); float:right'>" . substr($row["time"], 0, 10) . "</small><BR>";
             echo "</div>";
             $flag = 1;
