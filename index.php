@@ -48,7 +48,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>參考書推薦平台</title>
   <style>
-    
   </style>
   <script>
         function fixing()
@@ -106,11 +105,11 @@
     <div>
       <div class="backdrop">
         <div class="title">
+          <h6 style="color: white; font-size: 1.2em;">你有沒有想過，現在離學測還有多久？</h6>
           <h1 style="color: white; font-size: 3em;">
             <strong>參考書推薦平台</strong>
           </h1>
-          <h6 style="color: white; font-size: 1em;">專為高中生打造的參考書交流區</h6>
-          <h6 style="color: white; font-size: 1.2em;">你有沒有想過，現在離學測還有多久？</h6>
+          <h6 style="color: white; font-size: 1em;">現在挑書還來得及</h6>
           <a href="query.php" type="button" class="btn btn-lg"
             style="background-color: #487878; color: white;">開始搜尋</a>
         </div>
@@ -118,32 +117,22 @@
     </div>
    
 
-    <div class="content" id="intro" style="margin-bottom: 2em; float: left">
-      <h3>關於參考書推薦平台</h3>
-      參考書推薦平台致力於提供一個線上的資訊流通空間，期能透過使用者的互助互利，讓彼此從中受益。
-      與一般的購書網站不同，我們沒有任何商業利益導向，一切評論都是由熱心學長姐自主填寫，
-      並且評論皆是經過人工審核、評斷為對其他使用者有幫助後，才會出現在網頁上，
-      為的是讓每個使用者都能夠得知一本書最真實的樣貌。
+    <div class="content" style="margin-bottom: 2em">
+      <h3>About this Website</h3>
+      遙想當年聽到學姊考完學測，大家互相感慨著「我們也是準學測生了」的空洞；<br>
+      再到後來書單一家一家發下，而我們如無頭蒼蠅般爭先訂購，彷彿再晚一點，就會錯失買書的機會。<br>
+      <h5 style="margin: 10px">可是啊可是，要買什麼？</h5>
+      就算到了現場還是不知道要買什麼，挑了一兩個小時還是沒有頭緒，生怕會買到不合適的書。<br>
+      那些功課很好的學姐買的書，不知道是不是真的適合我？<br>
+      對！我們也曾陷在這種泥淖中！<br>
+      這就是為什麼我們決定架設這個參考書推薦網，讓學妹能夠參考之前學姊的使用心得，<br>
+      希望能夠幫助到各位學妹們，而也希望買了書的大家能不吝分享意見，一起讓網站更好！<br>
+      *網站內的資訊都是個人觀感僅供參考，如果買到雷請不要來打我們。<br>
     </div>
-    <div class="content" id="instruction">
-      <h3>使用方法</h3>
-      <div class="icon" id="list">
-        <img class="image" src="recommend.png" alt="Exam icons created by RIkas Dzihab - Flaticon">
-        <p>瀏覽清單</p>
-      </div>
-      <div class="icon" id="feedback">
-        <img class="image" src="feedback.png" alt="Form icons created by Freepik - Flaticon">
-        <p>撰寫回饋</p>
-      </div>
-      <div class="icon" id="share">
-        <img class="image" src="comment.png" alt="Emoji icons created by Smashicons - Flaticon">
-        <p>留下心情</p>
-      </div>
+    <div class="content">
+      <h3>現在就點擊右上按鈕，開始搜尋想要的書吧！</h3>
     </div>
-    <div class="content" id="collaborate"></div>
-  
-  
-    <div class="card content">
+    <div class="card">
       <div class="card-body">
         <h5 class="card-title">電子報...訂閱(?)</h5>
         <p class="card-text">如果願意支持我們的網站，或是還沒有時間撰寫回饋，歡迎留下您的Email，我們會不定期發送最新動態提醒喔！</p>
