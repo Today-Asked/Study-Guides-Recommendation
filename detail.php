@@ -171,7 +171,7 @@ function _date($str){
               echo "<div class='comment'>\n";
               echo "<small style='color:rgb(142, 138, 138);'>" . _date($_row['date']) . "</small>";
               if($_row["bookriver"]){
-                echo "<span class='badge badge-pill badge-primary'>來自書愛流動的捐書者</span>";
+                echo "&nbsp;&nbsp;<span class='badge badge-pill badge-primary' style='background: #478058;'>來自書愛流動的捐書者</span>";
               }
               echo "<br><span>" . nl2br($_row['comment']) . "</span>\n</div>";
             }
