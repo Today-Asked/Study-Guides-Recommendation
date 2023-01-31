@@ -336,6 +336,12 @@ function test_input($data) {
       <textarea class="form-control" name="comment" rows="10" cols="50" required></textarea>
       <div class="invalid-feedback">請輸入評價</div>
       <br>
+      <details class="alert alert-success" style="margin-top: 1%;">
+      <summary>不知道要寫什麼嗎?</summary>
+        小提示：可以詳細描述自己在這本書上花了多少時間、寫了這本書之後有什麼進步，
+        或是書的結構（舉例來說，如果是題庫的話，每一篇會有哪些大題，如克漏字或文意選填；
+        也可以寫講義的內容編排方式，是主題式還是依據課綱）...等等,希望有給你一些幫助:D
+      </details>
       <input type="hidden" name="bookriver" id="bookriver" value="none">
       <center><input type="submit" class="btn btn-outline-success" id="submitBtn" style="margin-bottom: 5%;"></center>
     </form>
