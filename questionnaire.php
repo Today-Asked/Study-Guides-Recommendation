@@ -38,7 +38,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $insert = "INSERT INTO questionnaire (book, overall, content, difficulty, answer, layout, comment, redeemCode, bookriver) 
         VALUES ('$id', '$overall', '$content', '$difficulty', '$answer', '$layout', '$comment', '$redeemCode', '$bookriver')";
     if($connection->query($insert) === true){
-        //echo "<script language='javascript'>alert('成功新增評論，感謝您的協助！\u000a您的兌換碼: " . $redeemCode . "（可至合作網站書愛流動兌換愛心幣）');</script>";
         echo "
         <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js'></script>
         <script>
@@ -52,9 +51,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     });
         </script>";
         if($bookriver){
-          echo "<script language='javascript'>alert('Hello, 來自書愛流動的使用者\u000a成功新增評論，感謝您的協助！');location.href='/questionnaire.php';</script>";
+          echo "<script language='javascript'>alert('Hello, 來自書愛流動的使用者\u000a成功新增評論，感謝您的協助！\u000a您的兌換碼: " . $redeemCode . "（審核通過後可至合作網站書愛流動兌換愛心幣）');location.href='/questionnaire.php';</script>";
         } else {
-          echo "<script language='javascript'>alert('成功新增評論，感謝您的協助！');location.href='/questionnaire.php';</script>";
+          echo "<script language='javascript'>alert('成功新增評論，感謝您的協助！\u000a您的兌換碼: " . $redeemCode . "（審核通過後可至合作網站書愛流動兌換愛心幣）');location.href='/questionnaire.php';</script>";
         }
       } else {
         echo "<script language='javascript'>alert('抱歉，發生錯誤，請再試一次');location.href='/questionnaire.php';</script>";
@@ -174,7 +173,7 @@ function test_input($data) {
                 <a class="nav-link" href="questionnaire.php">撰寫回饋</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#" onclick="javascript:fixing()">留言板</a>
+                <a class="nav-link" href="message_board.html">留言板</a>
               </li>
               <li>
                 <a class="nav-link" href="https://forms.gle/H1e8fs6Pp2gPj3xZ9" target="_blank">
