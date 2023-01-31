@@ -150,7 +150,9 @@ $subject = $search = $category = $exam = '%%';
                                 <a class="nav-link" aria-current="page" href="index.php">回首頁</a>
 
                             </li>
-
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="about.html">About us</a>
+                            </li>
                             <li class="nav-item">
 
                                 <a class="nav-link" href="query.php">瀏覽清單</a>
@@ -171,7 +173,7 @@ $subject = $search = $category = $exam = '%%';
 
                             <li class="nav-item">
 
-                                <a class="nav-link" href="#" onclick="javascript:fixing()">留言板</a>
+                                <a class="nav-link" href="message_board.html" onclick="">留言板</a>
 
                             </li>
 
@@ -462,15 +464,12 @@ $subject = $search = $category = $exam = '%%';
         </div>
 
         </center>
-        <footer style="text-align: center; position: sticky;">
-
-            Copyright © 2022 玉米糖粉. All rights reserved.<br>
-
-            111 級雄女資研出品<br>
-
-            Contact us: 
-              <a href="mailto:study.guides.recommend@gmail.com" target="_blank"><small>study.guides.recommend@gmail.com</small></a>
-
+        <footer style="margin: 0px; padding: 20px; background-color: rgb(217, 217, 217); text-align: center;  position: sticky;">
+            <a href="https://github.com/Today-Asked/Study-Guides-Recommendation" target="_blank" style="color:#000000"><small>Github</small></a>
+            &nbsp;
+            <a href="https://www.instagram.com/study_guides_recommend/" target="_blank" style="color:#000000"><small>Instagram</small></a>
+            &nbsp;
+            <a href="mailto:study.guides.recommend@gmail.com" target="_blank" style="color:#000000"><small>Contact us</small></a>
         </footer>
         <a href="#" style="position: fixed; bottom: 1%; right: 1%;"><img src="top.png" style="height: 2.5em;"></a>
 

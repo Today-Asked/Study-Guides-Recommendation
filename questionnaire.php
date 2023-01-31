@@ -38,7 +38,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $insert = "INSERT INTO questionnaire (book, overall, content, difficulty, answer, layout, comment, redeemCode, bookriver) 
         VALUES ('$id', '$overall', '$content', '$difficulty', '$answer', '$layout', '$comment', '$redeemCode', '$bookriver')";
     if($connection->query($insert) === true){
-        echo "
+        /*echo "
         <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js'></script>
         <script>
           emailjs.init('RhsmLYJSGkv4WFdO3');
@@ -49,7 +49,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     }, function(error) {
                         console.log('FAILED...', error);
                     });
-        </script>";
+        </script>";*/
         if($bookriver){
           echo "<script language='javascript'>navigator.clipboard.writeText('" . $redeemCode . "')
             .then(() => {
@@ -182,6 +182,9 @@ function test_input($data) {
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="index.php">回首頁</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="about.html">About us</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="query.php">瀏覽清單</a>
@@ -356,16 +359,22 @@ function test_input($data) {
       <textarea class="form-control" name="comment" rows="10" cols="50" required></textarea>
       <div class="invalid-feedback">請輸入評價</div>
       <br>
+      <details class="alert alert-success" style="margin-top: 1%;">
+      <summary>不知道要寫什麼嗎?</summary>
+        小提示：可以詳細描述自己在這本書上花了多少時間、寫了這本書之後有什麼進步，
+        或是書的結構（舉例來說，如果是題庫的話，每一篇會有哪些大題，如克漏字或文意選填；
+        也可以寫講義的內容編排方式，是主題式還是依據課綱）...等等,希望有給你一些幫助:D
+      </details>
       <input type="hidden" name="bookriver" id="bookriver" value="none">
       <center><input type="submit" class="btn btn-outline-success" id="submitBtn" style="margin-bottom: 5%;"></center>
     </form>
   </div>
-  <footer style="margin: 0px; padding: 20px; background-color: rgb(217, 217, 217); text-align: center;">
-    Copyright © 2022 玉米糖粉. All rights reserved.<br>
-    111 級雄女資研出品<br>
-    Contact us: 
-    <a href="mailto:study.guides.recommend@gmail.com" target="_blank"><small>study.guides.recommend@gmail.com</small></a>
-
+  <footer style="margin: 0px; padding: 20px; background-color: rgb(217, 217, 217); text-align: center;  position: sticky;">
+    <a href="https://github.com/Today-Asked/Study-Guides-Recommendation" target="_blank" style="color:#000000"><small>Github</small></a>
+    &nbsp;
+    <a href="https://www.instagram.com/study_guides_recommend/" target="_blank" style="color:#000000"><small>Instagram</small></a>
+    &nbsp;
+    <a href="mailto:study.guides.recommend@gmail.com" target="_blank" style="color:#000000"><small>Contact us</small></a>
   </footer>
   <a href="#" style="position: fixed; bottom: 1%; right: 1%;"><img src="top.png" style="height: 2.5em;"></a>
 </body>
