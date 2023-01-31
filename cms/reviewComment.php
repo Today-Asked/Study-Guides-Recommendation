@@ -99,8 +99,8 @@ if(isset($id)){
             $postdata = http_build_query($fields);
             $ch = curl_init();
             // url
-            //curl_setopt($ch,CURLOPT_URL, 'https://booksriver.q23rf.repl.co/studyguides');
-            curl_setopt($ch,CURLOPT_URL, 'https://study-guides.dstw.dev/test.php');
+            curl_setopt($ch,CURLOPT_URL, 'https://booksriver.q23rf.repl.co/studyguides');
+            //curl_setopt($ch,CURLOPT_URL, 'https://study-guides.dstw.dev/test.php');
             curl_setopt($ch,CURLOPT_POST, true);
             curl_setopt($ch,CURLOPT_POSTFIELDS, $postdata);
             curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
