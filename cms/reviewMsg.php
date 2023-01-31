@@ -38,7 +38,7 @@ function createTable($review, $connection){
     }
     echo "<table cellpadding=7 align=center border='1' class='table table-hover table-bordered'>\n<tr>\n";
     if($review === 0) echo "<th width='90px'>review&nbsp;</th>\n";
-    echo "<th>id</th>\n<th>類別</th>\n<th>timestamp</th>\n<th>留言</th>\n</tr>";
+    echo "<th>id</th>\n<th>類別</th>\n<th>timestamp</th>\n<th>標題</th>\n<th>留言</th>\n</tr>";
     while($row = $result -> fetch_assoc()){
         if($row["category"] == 0) $type = "讀書技巧";
         else $type = "心情";
@@ -49,6 +49,7 @@ function createTable($review, $connection){
         echo "<td>" . $row["id"] . "</td>\n";
         echo "<td>" . $type . "</td>\n";
         echo "<td>" . $row["time"] . "</td>\n";
+        echo "<td>" . $row["title"] . "</td>\n";
         echo "<td>" . $row["msg"] . "</td>\n";     
         echo "</tr>";   
     }
@@ -70,23 +71,25 @@ if(isset($_GET["id"])){
         $result = $connection->query($select);
         if($result->num_rows > 0){
             $row = $result -> fetch_assoc();
-            $redeemCode = $row["redeemCode"];
-            $fields = [ 'redeemCode' => $redeemCode ];
-            $postdata = http_build_query($fields);
-            $ch = curl_init();
-            // url
-            curl_setopt($ch,CURLOPT_URL, 'https://booksriver.q23rf.repl.co/studyguides');
-            //curl_setopt($ch,CURLOPT_URL, 'https://study-guides.dstw.dev/test.php');
-            curl_setopt($ch,CURLOPT_POST, true);
-            curl_setopt($ch,CURLOPT_POSTFIELDS, $postdata);
-            curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,0);
-            curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,0);
-            $result = curl_exec($ch);
-            $error = curl_error($ch);
-            $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            echo "<script>console.log('*" . $error . " " . $statusCode . "');</script>";
-            curl_close($ch);
+            if($row["category"] == 0){
+                $redeemCode = $row["redeemCode"];
+                $fields = [ 'redeemCode' => $redeemCode ];
+                $postdata = http_build_query($fields);
+                $ch = curl_init();
+                // url
+                curl_setopt($ch,CURLOPT_URL, 'https://booksriver.q23rf.repl.co/studyguides');
+                //curl_setopt($ch,CURLOPT_URL, 'https://study-guides.dstw.dev/test.php');
+                curl_setopt($ch,CURLOPT_POST, true);
+                curl_setopt($ch,CURLOPT_POSTFIELDS, $postdata);
+                curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,0);
+                curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,0);
+                $result = curl_exec($ch);
+                $error = curl_error($ch);
+                $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                echo "<script>console.log('*" . $error . " " . $statusCode . "');</script>";
+                curl_close($ch);
+            }
         } else {
             echo "error when finding redeemCode";
         }

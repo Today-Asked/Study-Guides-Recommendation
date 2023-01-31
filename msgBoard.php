@@ -39,7 +39,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST") { // insert data
                     });
         </script>";
         //echo "<script>alert('留言成功，經審核後就會出現在留言板上囉！');location.href = '/message_board.html';</script>";
-        echo "<script>alert('留言成功，經審核後就會出現在留言板上囉！\u000a您的兌換碼: '" . $redeemCode . "（審核通過後可至合作網站書愛流動兌換愛心幣）');location.href = '/message_board.html';</script>";
+        if($category == 0){
+            echo "<script language='javascript'>navigator.clipboard.writeText('" . $redeemCode . "')
+            .then(() => {
+              console.log('Text copied to clipboard');
+              location.href = 'message_board.html';
+            })
+            .catch(err => {
+              // This can happen if the user denies clipboard permissions:
+              console.error('Could not copy text: ', err);
+            });";
+            echo "alert('留言成功，經審核後就會出現在留言板上囉！\u000a您的兌換碼: " . $redeemCode . "\u000a（兌換碼已自動複製到您的剪貼簿，留言審核通過後可至合作網站書愛流動兌換愛心幣）');</script>";
+        } else {
+            echo "<script>alert('留言成功，留言經審核後就會出現在留言板上囉！');location.href = '/message_board.html';</script>";
+        }
     } else {
         echo "<script>alert('留言失敗，請再試一次');location.href = '/message_board.html';</script>";
     }

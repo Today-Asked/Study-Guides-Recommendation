@@ -51,9 +51,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     });
         </script>";
         if($bookriver){
-          echo "<script language='javascript'>alert('Hello, 來自書愛流動的使用者\u000a成功新增評論，感謝您的協助！\u000a您的兌換碼: " . $redeemCode . "（審核通過後可至合作網站書愛流動兌換愛心幣）');location.href='/questionnaire.php';</script>";
+          echo "<script language='javascript'>navigator.clipboard.writeText('" . $redeemCode . "')
+            .then(() => {
+              console.log('Text copied to clipboard');
+              location.href = 'questionnaire.php';
+            })
+            .catch(err => {
+              // This can happen if the user denies clipboard permissions:
+              console.error('Could not copy text: ', err);
+            });";
+          //echo "<script language='javascript'>navigator.clipboard.writeText('" . $redeemCode . "');";
+          echo "alert('Hello, 來自書愛流動的使用者\u000a成功新增評論，感謝您的協助！\u000a您的兌換碼: " . $redeemCode . "\u000a（兌換碼已自動複製至您的剪貼簿，評論經審核通過後可至合作網站書愛流動兌換愛心幣）');</script>";
         } else {
-          echo "<script language='javascript'>alert('成功新增評論，感謝您的協助！\u000a您的兌換碼: " . $redeemCode . "（審核通過後可至合作網站書愛流動兌換愛心幣）');location.href='/questionnaire.php';</script>";
+          echo "<script language='javascript'>navigator.clipboard.writeText('" . $redeemCode . "')
+            .then(() => {
+              console.log('Text copied to clipboard');
+              location.href = 'questionnaire.php';
+            })
+            .catch(err => {
+              // This can happen if the user denies clipboard permissions:
+              console.error('Could not copy text: ', err);
+            });";
+          //echo "<script language='javascript'>navigator.clipboard.writeText('" . $redeemCode . "');";
+          echo "alert('成功新增評論，感謝您的協助！\u000a您的兌換碼: " . $redeemCode . "\u000a（兌換碼已自動複製至您的剪貼簿，評論經審核通過後可至合作網站書愛流動兌換愛心幣）');</script>";
         }
       } else {
         echo "<script language='javascript'>alert('抱歉，發生錯誤，請再試一次');location.href='/questionnaire.php';</script>";
