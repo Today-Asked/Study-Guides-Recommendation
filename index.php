@@ -79,6 +79,9 @@
                 <a class="nav-link" aria-current="page" href="index.php">回首頁</a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="about.html">About us</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" href="query.php">瀏覽清單</a>
               </li>
               <li class="nav-item">
