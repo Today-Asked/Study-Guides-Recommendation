@@ -38,7 +38,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $insert = "INSERT INTO questionnaire (book, overall, content, difficulty, answer, layout, comment, redeemCode, bookriver) 
         VALUES ('$id', '$overall', '$content', '$difficulty', '$answer', '$layout', '$comment', '$redeemCode', '$bookriver')";
     if($connection->query($insert) === true){
-        echo "
+        /*echo "
         <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js'></script>
         <script>
           emailjs.init('RhsmLYJSGkv4WFdO3');
@@ -49,7 +49,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     }, function(error) {
                         console.log('FAILED...', error);
                     });
-        </script>";
+        </script>";*/
         if($bookriver){
           echo "<script language='javascript'>alert('Hello, 來自書愛流動的使用者\u000a成功新增評論，感謝您的協助！\u000a您的兌換碼: " . $redeemCode . "（審核通過後可至合作網站書愛流動兌換愛心幣）');location.href='/questionnaire.php';</script>";
         } else {
@@ -162,6 +162,9 @@ function test_input($data) {
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="index.php">回首頁</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="about.html">About us</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="query.php">瀏覽清單</a>

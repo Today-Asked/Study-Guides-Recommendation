@@ -150,7 +150,7 @@ function test_input($data) {
 <body>
     <script>
         function fixing(){
-            alert("施工中 就跟雄女的大門一樣");
+            alert("施工中");
         }
     </script>
     <div id="header">
@@ -175,6 +175,9 @@ function test_input($data) {
                                 <a class="nav-link" aria-current="page" href="index.php">回首頁</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="about.html">About us</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="query.php">瀏覽清單</a>
                             </li>
                             <li class="nav-item">
@@ -184,7 +187,7 @@ function test_input($data) {
                                 <a class="nav-link" href="questionnaire.php">撰寫回饋</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="tips.html">其他小知識！</a>
+                                <a class="nav-link" href="message_board.html">留言板</a>
                             </li>
                             <li>
                                 <a class="nav-link" href="https://forms.gle/H1e8fs6Pp2gPj3xZ9" target="_blank">
@@ -327,11 +330,12 @@ function test_input($data) {
         </form>
     </div>
     </div>
-    <footer style="margin: 0px; padding: 20px; background-color: rgb(217, 217, 217); text-align: center; position: sticky;">
-        Copyright © 2022 玉米糖粉. All rights reserved.<br>
-        111 級雄女資研出品<br>
-        Contact us:  
-        <a href="mailto:study.guides.recommend@gmail.com" target="_blank"><small>study.guides.recommend@gmail.com</small></a>
+    <footer style="margin: 0px; padding: 20px; background-color: rgb(217, 217, 217); text-align: center;  position: sticky;">
+        <a href="https://github.com/Today-Asked/Study-Guides-Recommendation" target="_blank" style="color:#000000"><small>Github</small></a>
+        &nbsp;
+        <a href="https://www.instagram.com/study_guides_recommend/" target="_blank" style="color:#000000"><small>Instagram</small></a>
+        &nbsp;
+        <a href="mailto:study.guides.recommend@gmail.com" target="_blank" style="color:#000000"><small>Contact us</small></a>
     </footer>
     <a href="#" style="position: fixed; bottom: 1%; right: 1%;"><img src="top.png" style="height: 2.5em;"></a>
     
