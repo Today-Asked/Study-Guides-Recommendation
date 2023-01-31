@@ -341,12 +341,12 @@ function test_input($data) {
       <center><input type="submit" class="btn btn-outline-success" id="submitBtn" style="margin-bottom: 5%;"></center>
     </form>
   </div>
-  <footer style="margin: 0px; padding: 20px; background-color: rgb(217, 217, 217); text-align: center;">
-    Copyright © 2022 玉米糖粉. All rights reserved.<br>
-    111 級雄女資研出品<br>
-    Contact us: 
-    <a href="mailto:study.guides.recommend@gmail.com" target="_blank"><small>study.guides.recommend@gmail.com</small></a>
-
+  <footer style="margin: 0px; padding: 20px; background-color: rgb(217, 217, 217); text-align: center;  position: sticky;">
+    <a href="https://github.com/Today-Asked/Study-Guides-Recommendation" target="_blank" style="color:#000000"><small>Github</small></a>
+    &nbsp;
+    <a href="https://www.instagram.com/study_guides_recommend/" target="_blank" style="color:#000000"><small>Instagram</small></a>
+    &nbsp;
+    <a href="mailto:study.guides.recommend@gmail.com" target="_blank" style="color:#000000"><small>Contact us</small></a>
   </footer>
   <a href="#" style="position: fixed; bottom: 1%; right: 1%;"><img src="top.png" style="height: 2.5em;"></a>
 </body>
