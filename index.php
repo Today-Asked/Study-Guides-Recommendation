@@ -48,6 +48,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>參考書推薦平台</title>
   <style>
+    
   </style>
   <script>
         function fixing()
@@ -103,13 +104,13 @@
   <center>
     <div class="head">hi</div>
     <div>
-      <div class="backdrop">
-        <div class="title">
-          <h6 style="color: white; font-size: 1.2em;">你有沒有想過，現在離學測還有多久？</h6>
+      <div id="backdrop">
+        <div id="title">
           <h1 style="color: white; font-size: 3em;">
             <strong>參考書推薦平台</strong>
           </h1>
-          <h6 style="color: white; font-size: 1em;">現在挑書還來得及</h6>
+          <h6 style="color: white; font-size: 1.2em;">專為高中生打造的參考書交流區</h6>
+          <h6 style="color: white; font-size: 1em;">你有沒有想過，現在離學測還有多久？</h6>
           <a href="query.php" type="button" class="btn btn-lg"
             style="background-color: #487878; color: white;">開始搜尋</a>
         </div>
@@ -117,30 +118,75 @@
     </div>
    
 
-    <div class="content" style="margin-bottom: 2em">
-      <h3>About this Website</h3>
-      遙想當年聽到學姊考完學測，大家互相感慨著「我們也是準學測生了」的空洞；<br>
-      再到後來書單一家一家發下，而我們如無頭蒼蠅般爭先訂購，彷彿再晚一點，就會錯失買書的機會。<br>
-      <h5 style="margin: 10px">可是啊可是，要買什麼？</h5>
-      就算到了現場還是不知道要買什麼，挑了一兩個小時還是沒有頭緒，生怕會買到不合適的書。<br>
-      那些功課很好的學姐買的書，不知道是不是真的適合我？<br>
-      對！我們也曾陷在這種泥淖中！<br>
-      這就是為什麼我們決定架設這個參考書推薦網，讓學妹能夠參考之前學姊的使用心得，<br>
-      希望能夠幫助到各位學妹們，而也希望買了書的大家能不吝分享意見，一起讓網站更好！<br>
-      *網站內的資訊都是個人觀感僅供參考，如果買到雷請不要來打我們。<br>
+    <div class="content" id="intro" style="margin-bottom: 2em; float: left">
+      <h3>關於參考書推薦平台</h3>
+      參考書推薦平台致力於提供一個線上的資訊流通空間，期能透過使用者的互助互利，讓彼此從中受益。
+      與一般的購書網站不同，我們沒有任何商業利益導向，一切評論都是由熱心學長姐自主填寫，
+      並且評論皆是經過人工審核、評斷為對其他使用者有幫助後，才會出現在網頁上，
+      為的是讓每個使用者都能夠得知一本書最真實的樣貌。
     </div>
-    <div class="content">
-      <h3>現在就點擊右上按鈕，開始搜尋想要的書吧！</h3>
+    <div class="content" id="instruction">
+      <h3>使用方法</h3>
+      <div class="icon" id="list">
+        <img class="image" src="recommend.png" alt="Exam icons created by RIkas Dzihab - Flaticon">
+
+        <strong><p style="margin: 0">瀏覽清單</p></strong>
+        <p>如果你想找找大家推薦的參考書，那可以用我們各式各樣的篩選器去找出自己最喜歡的一本。評分排序由高到低。</p>
+        <a href="query.php" type="button" class="btn"
+            style="background-color: #487878; color: white;">現在去</a>
+      </div>
+      <div class="icon" id="feedback">
+        <img class="image" src="feedback.png" alt="Form icons created by Freepik - Flaticon">
+        <strong><p style="margin: 0">撰寫回饋</p></strong>
+        <p>如果你是剛從大考苦海脫離的退役戰士，歡迎來為那些與你一路相伴走來的參考書撰寫心得，回饋給下屆學弟妹。</p>
+        <a href="questionnaire.php" type="button" class="btn"
+            style="background-color: #487878; color: white;">現在去</a>
+      </div>
+      <div class="icon" id="share">
+        <img class="image" src="comment.png" alt="Emoji icons created by Smashicons - Flaticon">
+        <strong><p style="margin: 0">留下心情</p></strong>
+        <p>如果你只是進來走走逛逛，或者想分享自己的讀書方法，也歡迎你在留言板下留下你的心情以及想分享的事物喔！</p>
+        <a href="message_board.html" type="button" class="btn"
+            style="background-color: #487878; color: white;">現在去</a>
+      </div>
     </div>
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">電子報...訂閱(?)</h5>
-        <p class="card-text">如果願意支持我們的網站，或是還沒有時間撰寫回饋，歡迎留下您的Email，我們會不定期發送最新動態提醒喔！</p>
-        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post">  
-          <input type="email" class="form-control" name="email" placeholder="example@gmail.com" required>
-          <input type="submit" value="送出！" class="btn btn-success" style="margin: 5px">
-        </form>
-        </div>
+    <div class="content" id="collaborate">
+      <h3>合作夥伴-書愛流動</h3>
+      <p>
+        「書愛流動」是一個讓二手學習用書流動的平台，以二手學習用書的交換達到循環經濟，使資源達到最大的效益的運用，減少地球資源的耗損。<br>
+        參考書推薦平台這次也與書愛流動合作，讓使用者能夠在物色參考書、或是撰寫評論的同時，能夠有更流暢的使用體驗。<BR>
+        合作內容如下：
+      </p>
+      <div class="icon" id="find">
+        <img class="" src="find.png" alt="Emoji icons created by Smashicons - Flaticon">
+        <strong><p>找二手更便利</p></strong>
+        <p>在書籍的詳情頁面底部，按下「找二手」按鈕即可直接連至書愛流動的官網，找找有沒有人捐贈這本書。</p>
+      </div>
+      <div class="icon" id="badge">
+        <img class="" src="badge.png" alt="Emoji icons created by Smashicons - Flaticon">
+        <strong><p>具徽章更可信</p></strong>
+        <p>曾經在書愛流動平台捐書或取書的用戶，其撰寫的評論將會有特別徽章標記，使該則評論更具有可信度。</p>
+      </div>
+      <div class="icon" id="coin">
+        <img class="" src="coin.png" alt="Emoji icons created by Smashicons - Flaticon">
+        <strong><p>留言賺愛心幣</p></strong>
+        <p>凡是為參考書評分或在留言版留言，經人工審核通過後便能獲得愛心幣，在書愛流動網站換取參考書籍。</p>
+      </div>
+      <BR>
+      <a href="https://booksriver.q23rf.repl.co/" class="btn btn-success" target="_blank">前往書愛流動</a>
+    </div>
+  
+    <div id="card">
+      <div class="card content">
+        <div class="card-body">
+          <h5 class="card-title">電子報訂閱</h5>
+          <p class="card-text">如果願意支持我們的網站，或是還沒有時間撰寫回饋，歡迎留下您的Email，我們會不定期發送最新動態提醒喔！</p>
+          <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post">  
+            <input type="email" class="form-control" name="email" placeholder="example@gmail.com" required>
+            <input type="submit" value="送出！" class="btn btn-success" style="margin: 5px">
+          </form>
+          </div>
+      </div>
     </div>
     <a href="#" style="position: fixed; bottom: 1%; right: 1%;"><img src="top.png" style="height: 2.5em;"></a>
     <footer style="margin: 0px; padding: 20px; background-color: rgb(217, 217, 217); text-align: center;  position: sticky;">
