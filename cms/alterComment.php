@@ -92,6 +92,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         } else {
             echo "error2";
         }
+    } else if($choice == "deleteAMsg"){
+        $delete = "DELETE FROM msgBoard WHERE id='$id'";
+        if($connection->query($delete) === true){
+            echo "成功刪除編號為 " . $id . " 的留言<br>";
+        } else {
+            echo "error";
+        }
     }
 }
 
@@ -101,6 +108,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <select name="choice">
         <option value="deleteAComment">刪一則評論(請在下方輸入評論 id)</option>
         <option value="resetCommentOfABook">刪除一本書的所有評論(請在下方輸入書本 id)</option>
+        <option value="deleteAMsg">刪除一則留言(請在下方輸入留言 id)</option>
     </select><br>
     <input type="text" name="id"><br>
     <input type="submit">
