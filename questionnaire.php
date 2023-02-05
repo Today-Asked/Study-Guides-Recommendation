@@ -267,11 +267,11 @@ function test_input($data) {
       <select class="form-select" name="book" id="book" required>
         <?php
         if(isset($get_bookId)){
-            $select = "SELECT name FROM book WHERE id='$get_bookId'";
+            $select = "SELECT name, publisher FROM book WHERE id='$get_bookId'";
             $result = $connection->query($select);
             if($result->num_rows > 0){
                 while($row = $result->fetch_assoc()){
-                    echo "<option value=".$row['id'].">".$row['publisher'].'&nbsp&nbsp'.$row['name']."</option>";
+                    echo "<option value=".$get_bookId.">".$row['publisher'].'&nbsp&nbsp'.$row['name']."</option>";
                 }
             } else {
                 echo "error";
