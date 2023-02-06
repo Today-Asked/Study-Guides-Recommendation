@@ -13,50 +13,7 @@ function test_input($data) {
     return $data;
 }
 
-if($_SERVER["REQUEST_METHOD"] == "POST") { // insert data
-    $title = test_input($_POST["title"]);
-    $msg = test_input($_POST["comment"]);
-    $theme = test_input($_POST["theme"]);
-    $acceptedChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890@#%^&*+=-_";
-    $redeemCode = substr(str_shuffle($acceptedChar), 0, 7);
-    if($theme == "studyPlan"){
-        $category = 0;
-    } else {
-        $category = 1;
-    }
-    $insert = "INSERT INTO msgBoard (category, title, msg, redeemCode) VALUES ('$category', '$title', '$msg', '$redeemCode')";
-    if($connection->query($insert) === true){
-        echo "
-        <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js'></script>
-        <script>
-          emailjs.init('" . $emailjsToken . "');
-            var tmp = {type: '留言'};
-            emailjs.send('service_ecyjr9k', 'template_qfesiq6', tmp)
-                    .then(function(response) {
-                        console.log('SUCCESS!');
-                    }, function(error) {
-                        console.log('FAILED...', error);
-                    });
-        </script>";
-        //echo "<script>alert('留言成功，經審核後就會出現在留言板上囉！');location.href = '/message_board.html';</script>";
-        if($category == 0){
-            echo "<script language='javascript'>navigator.clipboard.writeText('" . $redeemCode . "')
-            .then(() => {
-              console.log('Text copied to clipboard');
-              location.href = 'message_board.html';
-            })
-            .catch(err => {
-              // This can happen if the user denies clipboard permissions:
-              console.error('Could not copy text: ', err);
-            });";
-            echo "alert('留言成功，經審核後就會出現在留言板上囉！\u000a您的兌換碼: " . $redeemCode . "\u000a（兌換碼已自動複製到您的剪貼簿，留言審核通過後可至合作網站書愛流動兌換知識貨幣）');</script>";
-        } else {
-            echo "<script>alert('留言成功，留言經審核後就會出現在留言板上囉！');location.href = '/message_board.html';</script>";
-        }
-    } else {
-        echo "<script>alert('留言失敗，請再試一次');location.href = '/message_board.html';</script>";
-    }
-} else if($_SERVER["REQUEST_METHOD"] == "GET") { // study or emo 
+if($_SERVER["REQUEST_METHOD"] == "GET") { // study or emo 
     $category = $_GET["type"];
     if($category == 0) $type = "studyPlan";
     else $type = "emotion";
@@ -81,6 +38,3 @@ if($_SERVER["REQUEST_METHOD"] == "POST") { // insert data
     }
 }
 ?>
-<head>
-    <meta name="robots" content="noindex">
-</head>

@@ -128,7 +128,7 @@ function _date($str){
               </li>
               <li class="nav-item">
 
-                <a class="nav-link" href="message_board.html" onclick="">留言板</a>
+                <a class="nav-link" href="message_board.php" onclick="">留言板</a>
 
               </li>
               <li>
