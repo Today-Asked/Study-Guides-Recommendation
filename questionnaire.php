@@ -219,6 +219,10 @@ function test_input($data) {
         <i class="bi bi-question-circle-fill" style="font-size: 0.7em; color: rgb(139, 139, 139)"></i>
       </button>
     </h1>
+    現在撰寫評論，待審核通過之後將會發放書愛流動的知識貨幣，能夠至該網站換取書籍！
+    <div class="alert alert-warning" role="alert">
+      注意：評論經過審查後才會出現在網頁上，請勿發表髒話、過激（e.g. 這本書是垃圾）或一切與此書無關、無意義的言論，這樣是不會通過審核的喔！
+    </div>
     <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
