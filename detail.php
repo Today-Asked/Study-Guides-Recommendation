@@ -70,7 +70,7 @@ function _date($str){
         alert("新功能，施工中");
     }
     (function(){
-        emailjs.init("RhsmLYJSGkv4WFdO3");
+        emailjs.init($emailjsToken);
     })();
     function confirmEmail(){
       var check=confirm("感謝告知，我們將會傳送email提醒開發者更換封面。")
@@ -129,7 +129,7 @@ function _date($str){
               </li>
               <li class="nav-item">
 
-                <a class="nav-link" href="message_board.html" onclick="">留言板</a>
+                <a class="nav-link" href="message_board.php" onclick="">留言板</a>
 
               </li>
               <li>

@@ -38,10 +38,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $insert = "INSERT INTO questionnaire (book, overall, content, difficulty, answer, layout, comment, redeemCode, bookriver) 
         VALUES ('$id', '$overall', '$content', '$difficulty', '$answer', '$layout', '$comment', '$redeemCode', '$bookriver')";
     if($connection->query($insert) === true){
-        /*echo "
+        echo "
         <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js'></script>
         <script>
-          emailjs.init('RhsmLYJSGkv4WFdO3');
+          emailjs.init('" . $emailjsToken . "');
             var tmp = {type: '評論'};
             emailjs.send('service_ecyjr9k', 'template_qfesiq6', tmp)
                     .then(function(response) {
@@ -49,7 +49,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     }, function(error) {
                         console.log('FAILED...', error);
                     });
-        </script>";*/
+        </script>";
         if($bookriver){
           echo "<script language='javascript'>navigator.clipboard.writeText('" . $redeemCode . "')
             .then(() => {
@@ -61,7 +61,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
               console.error('Could not copy text: ', err);
             });";
           //echo "<script language='javascript'>navigator.clipboard.writeText('" . $redeemCode . "');";
-          echo "alert('Hello, 來自書愛流動的使用者\u000a成功新增評論，感謝您的協助！\u000a您的兌換碼: " . $redeemCode . "\u000a（兌換碼已自動複製至您的剪貼簿，評論經審核通過後可至合作網站書愛流動兌換愛心幣）');</script>";
+          echo "alert('Hello, 來自書愛流動的使用者\u000a成功新增評論，感謝您的協助！\u000a您的兌換碼: " . $redeemCode . "\u000a（兌換碼已自動複製至您的剪貼簿，評論經審核通過後可至合作網站書愛流動兌知識貨幣換）');</script>";
         } else {
           echo "<script language='javascript'>navigator.clipboard.writeText('" . $redeemCode . "')
             .then(() => {
@@ -73,7 +73,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
               console.error('Could not copy text: ', err);
             });";
           //echo "<script language='javascript'>navigator.clipboard.writeText('" . $redeemCode . "');";
-          echo "alert('成功新增評論，感謝您的協助！\u000a您的兌換碼: " . $redeemCode . "\u000a（兌換碼已自動複製至您的剪貼簿，評論經審核通過後可至合作網站書愛流動兌換愛心幣）');</script>";
+          echo "alert('成功新增評論，感謝您的協助！\u000a您的兌換碼: " . $redeemCode . "\u000a（兌換碼已自動複製至您的剪貼簿，評論經審核通過後可至合作網站書愛流動兌換知識貨幣）');</script>";
         }
       } else {
         echo "<script language='javascript'>alert('抱歉，發生錯誤，請再試一次');location.href='/questionnaire.php';</script>";
@@ -196,7 +196,7 @@ function test_input($data) {
                 <a class="nav-link" href="questionnaire.php">撰寫回饋</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="message_board.html">留言板</a>
+                <a class="nav-link" href="message_board.php">留言板</a>
               </li>
               <li>
                 <a class="nav-link" href="https://forms.gle/H1e8fs6Pp2gPj3xZ9" target="_blank">
