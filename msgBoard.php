@@ -26,7 +26,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") { // insert data
     }
     $insert = "INSERT INTO msgBoard (category, title, msg, redeemCode) VALUES ('$category', '$title', '$msg', '$redeemCode')";
     if($connection->query($insert) === true){
-        echo "
+        /*echo "
         <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js'></script>
         <script>
           emailjs.init('RhsmLYJSGkv4WFdO3');
@@ -37,7 +37,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") { // insert data
                     }, function(error) {
                         console.log('FAILED...', error);
                     });
-        </script>";
+        </script>";*/
         //echo "<script>alert('留言成功，經審核後就會出現在留言板上囉！');location.href = '/message_board.html';</script>";
         if($category == 0){
             echo "<script language='javascript'>navigator.clipboard.writeText('" . $redeemCode . "')

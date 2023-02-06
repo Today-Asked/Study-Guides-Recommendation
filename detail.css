@@ -76,8 +76,8 @@ h3{
     }
 
     .detail{
-        /* padding: 0 0 45%;
-        height: 40%; */
+        /* padding: 0 0 45%; */
+        height: 40%; 
     }
     .container{
         /* padding: 30%; */
@@ -106,7 +106,9 @@ h3{
     .head {
         margin-top: 35px;
     }
-
+    .detail{
+        height: 45%;
+    }
 }
 
 @media (min-width: 1200px) {
@@ -116,6 +118,9 @@ h3{
     /* .image{
         height: 20%;
     } */
+    .detail{
+        height: 50%;
+    }
     
 }
 

@@ -46,6 +46,7 @@ function _date($str){
   </script>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="cache-control" content="no-cache">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -58,13 +59,13 @@ function _date($str){
   <link rel="stylesheet" type="text/css" href="detail.css">
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
-    window.onload=function(){
+    /*window.onload=function(){
       if(window.screen.width >= 600){
         container = document.getElementById("container");
         nrHeight = (document.getElementById("name_rating").clientHeight).toString();
         container.setAttribute("style","height: " + nrHeight + "px");
       }
-    }
+    }*/
     function fixing(){
         alert("新功能，施工中");
     }
