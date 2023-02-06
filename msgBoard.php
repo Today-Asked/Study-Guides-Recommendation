@@ -81,3 +81,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST") { // insert data
     }
 }
 ?>
+<head>
+    <meta name="robots" content="noindex">
+</head>
