@@ -69,7 +69,7 @@ function _date($str){
         alert("新功能，施工中");
     }
     (function(){
-        emailjs.init("RhsmLYJSGkv4WFdO3");
+        emailjs.init($emailjsToken);
     })();
     function confirmEmail(){
       var check=confirm("感謝告知，我們將會傳送email提醒開發者更換封面。")

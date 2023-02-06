@@ -1,5 +1,5 @@
-
 <?php
+echo "<head><meta name='robots' content='noindex'></head>";
 require_once "databaseLogin.php";
 $connection = new mysqli($hostname, $username, $password, $database);
 if($connection->error) die("database connection error!".$connection->connnect_error);
@@ -29,7 +29,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") { // insert data
         echo "
         <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js'></script>
         <script>
-          emailjs.init('RhsmLYJSGkv4WFdO3');
+          emailjs.init('" . $emailjsToken . "');
             var tmp = {type: '留言'};
             emailjs.send('service_ecyjr9k', 'template_qfesiq6', tmp)
                     .then(function(response) {
@@ -49,7 +49,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") { // insert data
               // This can happen if the user denies clipboard permissions:
               console.error('Could not copy text: ', err);
             });";
-            echo "alert('留言成功，經審核後就會出現在留言板上囉！\u000a您的兌換碼: " . $redeemCode . "\u000a（兌換碼已自動複製到您的剪貼簿，留言審核通過後可至合作網站書愛流動兌換愛心幣）');</script>";
+            echo "alert('留言成功，經審核後就會出現在留言板上囉！\u000a您的兌換碼: " . $redeemCode . "\u000a（兌換碼已自動複製到您的剪貼簿，留言審核通過後可至合作網站書愛流動兌換知識貨幣）');</script>";
         } else {
             echo "<script>alert('留言成功，留言經審核後就會出現在留言板上囉！');location.href = '/message_board.html';</script>";
         }
