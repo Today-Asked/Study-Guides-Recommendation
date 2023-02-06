@@ -20,11 +20,11 @@
 ![image](https://user-images.githubusercontent.com/63833544/215637419-dfe80d3a-40e5-4d3a-9dda-d3ea5e151464.png)
 若是不知道要寫什麼的話，在下方也有提供一些小指引喔。
 ![image](https://user-images.githubusercontent.com/63833544/215645422-87f49c00-a247-43c4-ba52-9a14eead3255.png)
->待評論審核通過後，使用者便能獲取愛心幣，至書愛流動兌換書籍。
+>待評論審核通過後，使用者便能獲取知識貨幣，至書愛流動兌換書籍。
 ### 三、留下心情
 ![image](https://user-images.githubusercontent.com/63833544/215644426-575d99af-66df-4890-8254-4ec7fc184c62.png)
 無論是讀書技巧分享、或是壓力好大需要找人取暖，都歡迎在留言板留下想說的話！
->即日起在留言版留言，審核通過後便能得到愛心幣，至書愛流動兌換書籍。
+>即日起在留言版留言，審核通過後便能得到知識貨幣，至書愛流動兌換書籍。
 注意留言必須有意義，也不能發表具有攻擊性、冒犯性以及歧視性等字眼，這樣審核是不會通過的喔！
 ## Contact us
 參考書推薦平台感謝您的蒞臨！有任何指教也歡迎填寫 [意見回饋表單](https://docs.google.com/forms/d/e/1FAIpQLSeViVaUA45k-oR1S5p593Mw2yjy55vACfNlcOCuwWN57kDwhw/viewform)，或是私訊 [IG粉專](https://www.instagram.com/study_guides_recommend/) 或 [email](mailto:study.guides.recommend@gmail.com) 讓我們可以變得更好！
