@@ -1,4 +1,5 @@
 <?php
+echo "<head><meta name='robots' content='noindex'></head>";
 require_once "databaseLogin.php";
 $connection = new mysqli($hostname, $username, $password, $database);
 if($connection->error) die("database connection error!".$connection->connnect_error);

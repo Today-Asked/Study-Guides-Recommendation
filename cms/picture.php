@@ -1,4 +1,5 @@
 <?php
+echo "<head><meta name='robots' content='noindex'></head>";
 session_start();
 if(!$_SESSION["login"]){
     echo "<script>alert('permission denied'); location.href='/index.php';</script>";
