@@ -1,4 +1,5 @@
 <?php
+echo "<head><meta name='robots' content='noindex'></head>";
 session_start();
 require_once "databaseLogin.php";
 if($_SERVER["REQUEST_METHOD"] == "POST"){
