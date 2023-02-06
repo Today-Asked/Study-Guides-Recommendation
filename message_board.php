@@ -14,6 +14,7 @@
     <script>
         $("document").ready(function(){
             loadData(0);
+            $('#redeemCodeAlert').hide();
             function loadData(category){
                 $.ajax({
                     url: '/msgBoard.php',
@@ -182,7 +183,7 @@
                                 <a class="nav-link" href="questionnaire.php">撰寫回饋</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="message_board.html">留言板</a>
+                                <a class="nav-link" href="message_board.php">留言板</a>
                             </li>
                             <li>
                                 <a class="nav-link" href="https://forms.gle/H1e8fs6Pp2gPj3xZ9" target="_blank">
@@ -199,6 +200,7 @@
 
     <div class="wrapping" style="margin-bottom: -20px; min-height: 100%;">
         <div class="content">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert" id="redeemCodeAlert"></div>
             <h2>留言板</h2>
             <p>這裡是一個匿名的小空間，無論是互助或者是取暖，都在這裡留下你的心情吧！<br>
                 現在在讀書技巧版留言，審核通過後就可以獲得書愛流動的知識貨幣，至該網站兌換書籍。
@@ -230,7 +232,7 @@
                 </div>
             </div>
             <!--留言區-->
-            <form action="/msgBoard.php" method="post" 
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" 
                     class="needs-validation" style="margin:1%" novalidate enctype="multipart/form-data">
                 <strong style="margin:0.5em;">來留言吧！</strong>
                 <textarea class="form-control" name="title" rows="1" cols="20" placeholder="標題（選填）" style="margin-bottom:1%;"></textarea>
@@ -249,7 +251,73 @@
         <a href="mailto:study.guides.recommend@gmail.com" target="_blank" style="color:#000000"><small>Contact us</small></a>
     </footer>
     <a href="#" style="position: fixed; bottom: 1%; right: 1%;"><img src="top.png" style="height: 2.5em;"></a>
-    
     </div>
-
 </body>
+
+<?php
+require_once "databaseLogin.php";
+$connection = new mysqli($hostname, $username, $password, $database);
+if($connection->error) die("database connection error!".$connection->connnect_error);
+//else echo "Success!";
+$connection->set_charset("utf8");
+
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+if($_SERVER["REQUEST_METHOD"] == "POST") { // insert data
+    $title = test_input($_POST["title"]);
+    $msg = test_input($_POST["comment"]);
+    $theme = test_input($_POST["theme"]);
+    $acceptedChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890@#%^&*+=-_";
+    $redeemCode = substr(str_shuffle($acceptedChar), 0, 7);
+    if($theme == "studyPlan"){
+        $category = 0;
+    } else {
+        $category = 1;
+    }
+    $insert = "INSERT INTO msgBoard (category, title, msg, redeemCode) VALUES ('$category', '$title', '$msg', '$redeemCode')";
+    if($connection->query($insert) === true){
+        /*echo "
+        <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js'></script>
+        <script>
+          emailjs.init('" . $emailjsToken . "');
+            var tmp = {type: '留言'};
+            emailjs.send('service_ecyjr9k', 'template_qfesiq6', tmp)
+                    .then(function(response) {
+                        console.log('SUCCESS!');
+                    }, function(error) {
+                        console.log('FAILED...', error);
+                    });
+        </script>";*/
+        if($category == 0){
+            echo "<script>
+                $('document').ready(function(){
+                    $('#redeemCodeAlert').show();
+                    var data = '留言成功，經審核後就會出現在留言板上囉！<br>您的兌換碼: " . $redeemCode . "<br>（留言審核通過後可至合作網站書愛流動兌換知識貨幣）<br>請勿刷新此頁面，避免造成資料庫內的留言重複，感謝您的協助';
+                    $('#redeemCodeAlert').html(data);
+                });
+            </script>";
+        } else {
+            echo "<script>
+                $('document').ready(function(){
+                    $('#redeemCodeAlert').show(); 
+                    var data = '留言成功，經審核後就會出現在留言板上囉！<br>請勿刷新此頁面，避免造成資料庫內的留言重複，感謝您的協助';
+                    $('#redeemCodeAlert').html(data);
+                });
+            </script>";
+        }
+    } else {
+        echo "<script>
+            $('document').ready(function(){
+                $('#redeemCodeAlert').show();
+                var data = '留言失敗，請再試一次<br>請勿刷新此頁面，避免造成資料庫內的留言重複，感謝您的協助';
+                $('#redeemCodeAlert').html(data);
+            });
+        </script>";
+    }
+}
+?>

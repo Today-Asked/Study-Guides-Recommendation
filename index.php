@@ -91,7 +91,7 @@
                 <a class="nav-link" href="questionnaire.php">撰寫回饋</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="message_board.html" onclick="">留言板</a>
+                <a class="nav-link" href="message_board.php" onclick="">留言板</a>
               </li>
               <li>
                 <a class="nav-link" href="https://forms.gle/H1e8fs6Pp2gPj3xZ9" target="_blank">
@@ -149,7 +149,7 @@
         <img class="image" src="comment.png" alt="Emoji icons created by Smashicons - Flaticon">
         <strong><p style="margin: 0">留下心情</p></strong>
         <p>如果你只是進來走走逛逛，或者想分享自己的讀書方法，也歡迎你在留言板下留下你的心情以及想分享的事物喔！</p>
-        <a href="message_board.html" type="button" class="btn"
+        <a href="message_board.php" type="button" class="btn"
             style="background-color: #487878; color: white;">現在去</a>
       </div>
     </div>
