@@ -173,8 +173,8 @@
       </div>
       <div class="icon" id="coin">
         <img class="" src="coin.png" alt="Emoji icons created by Smashicons - Flaticon">
-        <strong><p>留言賺愛心幣</p></strong>
-        <p>凡是為參考書評分或在留言版留言，經人工審核通過後便能獲得愛心幣，在書愛流動網站換取參考書籍。</p>
+        <strong><p>留言兌換書籍</p></strong>
+        <p>凡是為參考書評分或在留言版留言，經人工審核通過後便能獲得知識貨幣，在書愛流動網站換取參考書籍。</p>
       </div>
       <BR>
       <a href="https://booksriver.q23rf.repl.co/" class="btn btn-success" target="_blank">前往書愛流動</a>
@@ -193,6 +193,7 @@
           </div>
       </div>
     </div>
+
   <!-- instagram embed -->
   <div style="margin: 2%">
   <h3>追蹤我們！</h3>
@@ -277,15 +278,14 @@
   </div>
   <script async src="//www.instagram.com/embed.js"></script>
   
-  
-    <a href="#" style="position: fixed; bottom: 1%; right: 1%;"><img src="top.png" style="height: 2.5em;"></a>
-    <footer style="margin: 0px; padding: 20px; background-color: rgb(217, 217, 217); text-align: center;  position: sticky;">
-      <a href="https://github.com/Today-Asked/Study-Guides-Recommendation" target="_blank" style="color:#000000"><small>Github</small></a>
+  <a href="#" style="position: fixed; bottom: 1%; right: 1%;"><img src="top.png" style="height: 2.5em;"></a>
+  <footer style="margin: 0px; padding: 20px; background-color: rgb(217, 217, 217); text-align: center;  position: sticky;">
+    <a href="https://github.com/Today-Asked/Study-Guides-Recommendation" target="_blank" style="color:#000000"><small>Github</small></a>
       &nbsp;
       <a href="https://www.instagram.com/study_guides_recommend/" target="_blank" style="color:#000000"><small>Instagram</small></a>
       &nbsp;
       <a href="mailto:study.guides.recommend@gmail.com" target="_blank" style="color:#000000"><small>Contact us</small></a>
-    </footer>
+  </footer>
   </center>
 </body>
 
