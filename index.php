@@ -13,6 +13,7 @@
   </script>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="cache-control" content="no-cache">
     <meta name="description" content="歡迎光臨參考書推薦平台，在這裡你可以找到適合你的高中參考書，使用完畢也別忘了留下你的評論，回饋給學弟妹，讓我們一起往夢想邁進！瀏覽推薦清單.">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
