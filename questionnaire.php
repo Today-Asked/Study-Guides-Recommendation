@@ -16,85 +16,12 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
       echo "<script>window.onload = function(){ document.getElementById('bookriver').setAttribute('value', '" . $code . "'); }</script>";
     }
 }
-
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    $id = test_input($_POST["book"]);
-    $overall = test_input($_POST["overall"]);
-    $content = test_input($_POST["content"]);
-    $difficulty = test_input($_POST["difficulty"]);
-    $answer = test_input($_POST["answer"]);
-    $layout = test_input($_POST["layout"]);
-    $comment = test_input($_POST["comment"]);
-    $code = test_input($_POST["bookriver"]);
-    $bookriver = 0;
-    if($code != "none"){
-      $sum = 0;
-      for($i = 0; $i < 5; $i = $i + 1) $sum = $sum + (int)$code[$i+1] * $verifyConst[$i];
-      if($code[0] == $sum % 10)  $bookriver = 1;
-    }
-    
-    $acceptedChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890@#%^&*+=-_";
-    $redeemCode = substr(str_shuffle($acceptedChar), 0, 7);
-    $insert = "INSERT INTO questionnaire (book, overall, content, difficulty, answer, layout, comment, redeemCode, bookriver) 
-        VALUES ('$id', '$overall', '$content', '$difficulty', '$answer', '$layout', '$comment', '$redeemCode', '$bookriver')";
-    if($connection->query($insert) === true){
-        echo "
-        <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js'></script>
-        <script>
-          emailjs.init('" . $emailjsToken . "');
-            var tmp = {type: '評論'};
-            emailjs.send('service_ecyjr9k', 'template_qfesiq6', tmp)
-                    .then(function(response) {
-                        console.log('SUCCESS!');
-                    }, function(error) {
-                        console.log('FAILED...', error);
-                    });
-        </script>";
-        if($bookriver){
-          echo "<script language='javascript'>navigator.clipboard.writeText('" . $redeemCode . "')
-            .then(() => {
-              console.log('Text copied to clipboard');
-              location.href = 'questionnaire.php';
-            })
-            .catch(err => {
-              // This can happen if the user denies clipboard permissions:
-              console.error('Could not copy text: ', err);
-            });";
-          //echo "<script language='javascript'>navigator.clipboard.writeText('" . $redeemCode . "');";
-          echo "alert('Hello, 來自書愛流動的使用者\u000a成功新增評論，感謝您的協助！\u000a您的兌換碼: " . $redeemCode . "\u000a（兌換碼已自動複製至您的剪貼簿，評論經審核通過後可至合作網站書愛流動兌知識貨幣換）');</script>";
-        } else {
-          echo "<script language='javascript'>navigator.clipboard.writeText('" . $redeemCode . "')
-            .then(() => {
-              console.log('Text copied to clipboard');
-              location.href = 'questionnaire.php';
-            })
-            .catch(err => {
-              // This can happen if the user denies clipboard permissions:
-              console.error('Could not copy text: ', err);
-            });";
-          //echo "<script language='javascript'>navigator.clipboard.writeText('" . $redeemCode . "');";
-          echo "alert('成功新增評論，感謝您的協助！\u000a您的兌換碼: " . $redeemCode . "\u000a（兌換碼已自動複製至您的剪貼簿，評論經審核通過後可至合作網站書愛流動兌換知識貨幣）');</script>";
-        }
-      } else {
-        echo "<script language='javascript'>alert('抱歉，發生錯誤，請再試一次');location.href='/questionnaire.php';</script>";
-    }
-}
-
-//echo $subject . $book . $category . $subcategory . $overall . $comment . "<br>";
-
-function test_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
 ?>
-
 <!DOCTYPE HTML5>
-
 <head>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZXCEF0Q5KK"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -213,7 +140,6 @@ function test_input($data) {
   
   <div class="wrapping" style="margin-bottom: -20px; min-height: 100%;">
   <div class="content">
-
     <h1 style="text-align: center;">撰寫回饋
       <button type="button" data-bs-toggle="modal" data-bs-target="#Modal" style="border: none; background: none;">
         <i class="bi bi-question-circle-fill" style="font-size: 0.7em; color: rgb(139, 139, 139)"></i>
@@ -251,7 +177,7 @@ function test_input($data) {
 
       <select class="form-select" name="subject"
         onchange="window.location='<?php echo $PHP_SELF;?>?subject='+this.value+'&code='+document.getElementById('bookriver').getAttribute('value');" required>
-        <option value="    "> </option>
+        <option value=""> </option>
         <option value="國文" <?php if(isset($get_subject) && $get_subject === "國文") echo "selected";?>>國文</option>
         <option value="數學" <?php if(isset($get_subject) && $get_subject === "數學") echo "selected";?>>數學</option>
         <option value="英文" <?php if(isset($get_subject) && $get_subject === "英文") echo "selected";?>>英文</option>
@@ -373,6 +299,22 @@ function test_input($data) {
       <center><input type="submit" class="btn btn-outline-success" id="submitBtn" style="margin-bottom: 5%;"></center>
     </form>
   </div>
+  <!--redeem code alert (modal)-->
+  <div class="modal fade" id="redeemCodeAlert" tabindex="-1" aria-labelledby="redeemCodeAlertLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="redeemCodeAlertLabel">感謝您！</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="redeemCodeAlertBody"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer style="margin: 0px; padding: 20px; background-color: rgb(217, 217, 217); text-align: center;  position: sticky;">
     <a href="https://github.com/Today-Asked/Study-Guides-Recommendation" target="_blank" style="color:#000000"><small>Github</small></a>
     &nbsp;
@@ -382,3 +324,83 @@ function test_input($data) {
   </footer>
   <a href="#" style="position: fixed; bottom: 1%; right: 1%;"><img src="top.png" style="height: 2.5em;"></a>
 </body>
+<?php
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $id = test_input($_POST["book"]);
+    $overall = test_input($_POST["overall"]);
+    $content = test_input($_POST["content"]);
+    $difficulty = test_input($_POST["difficulty"]);
+    $answer = test_input($_POST["answer"]);
+    $layout = test_input($_POST["layout"]);
+    $comment = test_input($_POST["comment"]);
+    $code = test_input($_POST["bookriver"]);
+    $bookriver = 0;
+    if($code != "none"){
+      $sum = 0;
+      for($i = 0; $i < 5; $i = $i + 1) $sum = $sum + (int)$code[$i+1] * $verifyConst[$i];
+      if($code[0] == $sum % 10)  $bookriver = 1;
+    }
+    
+    $acceptedChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890@#%^&*+=-_";
+    $redeemCode = substr(str_shuffle($acceptedChar), 0, 7);
+    $insert = "INSERT INTO questionnaire (book, overall, content, difficulty, answer, layout, comment, redeemCode, bookriver) 
+        VALUES ('$id', '$overall', '$content', '$difficulty', '$answer', '$layout', '$comment', '$redeemCode', '$bookriver')";
+    if($connection->query($insert) === true){
+        echo "
+        <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js'></script>
+        <script>
+          emailjs.init('" . $emailjsToken . "');
+            var tmp = {type: '評論'};
+            emailjs.send('service_ecyjr9k', 'template_qfesiq6', tmp)
+                    .then(function(response) {
+                        console.log('SUCCESS!');
+                    }, function(error) {
+                        console.log('FAILED...', error);
+                    });
+        </script>";
+        if($bookriver){
+          echo "<script>
+            $('document').ready(function(){
+              var data = 'Hello, 來自書愛流動的使用者<br>成功新增評論，感謝您的協助！<br>您的兌換碼: " . $redeemCode . "<br>（評論經審核通過後可至合作網站書愛流動兌知識貨幣換）';
+              $('#redeemCodeAlertBody').html(data);
+              $('#redeemCodeAlert').modal('show');
+              $('#redeemCodeAlert').on('hidden.bs.modal', function(){
+                location.href='/questionnaire.php';
+              });
+            });
+          </script>";
+        } else {
+          echo "<script>
+            $('document').ready(function(){
+              var data = '成功新增評論，感謝您的協助！<br>您的兌換碼: " . $redeemCode . "<br>（評論經審核通過後可至合作網站書愛流動兌換知識貨幣）';
+              $('#redeemCodeAlertBody').html(data);
+              $('#redeemCodeAlert').modal('show');
+              $('#redeemCodeAlert').on('hidden.bs.modal', function(){
+                location.href='/questionnaire.php';
+              });
+            });
+          </script>";
+        }
+      } else {
+        echo "<script>
+          $('document').ready(function(){
+            var data = '抱歉，發生錯誤，請再試一次';
+            $('#redeemCodeAlertBody').html(data);
+            $('#redeemCodeAlert').modal('show');
+            $('#redeemCodeAlert').on('hidden.bs.modal', function(){
+              location.href='/questionnaire.php';
+            });
+          });
+        </script>";
+    }
+}
+
+//echo $subject . $book . $category . $subcategory . $overall . $comment . "<br>";
+
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+?>

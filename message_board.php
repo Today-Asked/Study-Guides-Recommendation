@@ -14,7 +14,6 @@
     <script>
         $("document").ready(function(){
             loadData(0);
-            $('#redeemCodeAlert').hide();
             function loadData(category){
                 $.ajax({
                     url: '/msgBoard.php',
@@ -137,7 +136,6 @@
             document.getElementById("theme").setAttribute("value", "emotion");
         }
         function study_onclick(){ //按下讀書板
-            
             var study = document.getElementById("studyPlan");
             var emo = document.getElementById("emotion");
             study.setAttribute("aria-selected", "true");
@@ -200,7 +198,6 @@
 
     <div class="wrapping" style="margin-bottom: -20px; min-height: 100%;">
         <div class="content">
-            <div class="alert alert-warning alert-dismissible fade show" role="alert" id="redeemCodeAlert"></div>
             <h2>留言板</h2>
             <p>這裡是一個匿名的小空間，無論是互助或者是取暖，都在這裡留下你的心情吧！<br>
                 現在在讀書技巧版留言，審核通過後就可以獲得書愛流動的知識貨幣，至該網站兌換書籍。
@@ -242,7 +239,23 @@
             </form>
         </div>
     </div>
-    
+
+    <!--redeem code alert (modal)-->
+    <div class="modal fade" id="redeemCodeAlert" tabindex="-1" aria-labelledby="redeemCodeAlertLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="redeemCodeAlertLabel">感謝您！</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="redeemCodeAlertBody"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer style="margin: 0px; padding: 20px; background-color: rgb(217, 217, 217); text-align: center;  position: sticky;">
         <a href="https://github.com/Today-Asked/Study-Guides-Recommendation" target="_blank" style="color:#000000"><small>Github</small></a>
         &nbsp;
@@ -281,7 +294,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") { // insert data
     }
     $insert = "INSERT INTO msgBoard (category, title, msg, redeemCode) VALUES ('$category', '$title', '$msg', '$redeemCode')";
     if($connection->query($insert) === true){
-        /*echo "
+        echo "
         <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js'></script>
         <script>
           emailjs.init('" . $emailjsToken . "');
@@ -292,30 +305,39 @@ if($_SERVER["REQUEST_METHOD"] == "POST") { // insert data
                     }, function(error) {
                         console.log('FAILED...', error);
                     });
-        </script>";*/
+        </script>";
         if($category == 0){
             echo "<script>
                 $('document').ready(function(){
-                    $('#redeemCodeAlert').show();
-                    var data = '留言成功，經審核後就會出現在留言板上囉！<br>您的兌換碼: " . $redeemCode . "<br>（留言審核通過後可至合作網站書愛流動兌換知識貨幣）<br>請勿刷新此頁面，避免造成資料庫內的留言重複，感謝您的協助';
-                    $('#redeemCodeAlert').html(data);
+                    var data = '留言成功，經審核後就會出現在留言板上囉！<br>您的兌換碼: " . $redeemCode . "<br>（留言審核通過後可至合作網站書愛流動兌換知識貨幣）';
+                    $('#redeemCodeAlertBody').html(data);
+                    $('#redeemCodeAlert').modal('show');
+                    $('#redeemCodeAlert').on('hidden.bs.modal', function(){
+                        location.href='/message_board.php';
+                    });
                 });
             </script>";
         } else {
             echo "<script>
                 $('document').ready(function(){
-                    $('#redeemCodeAlert').show(); 
-                    var data = '留言成功，經審核後就會出現在留言板上囉！<br>請勿刷新此頁面，避免造成資料庫內的留言重複，感謝您的協助';
-                    $('#redeemCodeAlert').html(data);
+                    var data = '留言成功，經審核後就會出現在留言板上囉！';
+                    $('#redeemCodeAlertBody').html(data);
+                    $('#redeemCodeAlert').modal('show');
+                    $('#redeemCodeAlert').on('hidden.bs.modal', function(){
+                        location.href='/message_board.php';
+                    });
                 });
             </script>";
         }
     } else {
         echo "<script>
             $('document').ready(function(){
-                $('#redeemCodeAlert').show();
-                var data = '留言失敗，請再試一次<br>請勿刷新此頁面，避免造成資料庫內的留言重複，感謝您的協助';
-                $('#redeemCodeAlert').html(data);
+                var data = '留言失敗，請再試一次';
+                $('#redeemCodeAlertBody').html(data);
+                $('#redeemCodeAlert').modal('show');
+                $('#redeemCodeAlert').on('hidden.bs.modal', function(){
+                    location.href='/message_board.php';
+                });
             });
         </script>";
     }
