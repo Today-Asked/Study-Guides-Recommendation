@@ -56,7 +56,7 @@ function _date($str){
   <link rel="icon" type="image/x-icon" href="icon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?php echo $name;?> 評價</title>
-  <link rel="stylesheet" type="text/css" href="detail.css">
+  <link rel="stylesheet" type="text/css" href="detail.css?id=<?php echo rand(1, 100) ?>">
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
     /*window.onload=function(){
