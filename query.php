@@ -420,7 +420,7 @@ $subject = $search = $category = $exam = '%%';
 
                         while($row = $result->fetch_assoc()){
 
-                            echo "<div class='card mb-0' type='button' onclick='detail(" . $row['id'] . ")' target='_blank' style='max-width: 500px; display: inline-block; margin: 1%' height: 100%;>\n";
+                            echo "<div class='card mb-0' type='button' onclick='detail(" . $row['id'] . ")' target='_blank' style='max-width: 500px; display: inline-block; margin: 1%'>\n";
 
                             echo "<div class='row g-0'>\n";
 
