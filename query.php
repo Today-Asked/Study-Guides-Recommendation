@@ -66,6 +66,8 @@ $subject = $search = $category = $exam = '%%';
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+    <meta http-equiv="cache-control" content="no-cache">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
