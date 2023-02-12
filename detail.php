@@ -81,7 +81,8 @@ function _date($str){
     function oldCover(){
         var message = {
             bookID: '<?php echo $bookId ?>',
-            bookName: '<?php echo $name?>'
+            bookName: '<?php echo $name?>',
+            searchURL: 'www.google.com/search?q=<?php echo $name?>'
         };
         emailjs.send('service_ecyjr9k', 'template_egzx9ah', message)
         .then(function(response) {
