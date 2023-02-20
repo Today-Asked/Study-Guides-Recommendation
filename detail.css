@@ -6,12 +6,20 @@ html, body{
     /* 整個頁面 */
     margin: 5% 10% 5%;
 }
-.container, .name_rating{display: block;}
+.name_rating{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+    min-height: 300px;
+    margin-bottom: 5%;
+    padding: 0 3% 0;
+}
 .detail {
     /*照片+書名+評分*/
-    /* margin: 5% 0 45%; */
-    display: block;
-    /* position: relative; */
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 3%;
 }
 h3{
     padding: 5px;
@@ -26,39 +34,37 @@ h3{
     border-style: solid;
     border-width: 1px;
     border-radius: 5px;
+    display: block;
 }
+.image{
+    width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+}
+span{
+    margin-bottom: 0.8em;
+}
+.rating{
+    text-indent: 2em;        
+}
+
+
 
 @media (min-width: 200px) {
     /* detail: vertical */
     .head {
         margin-top: 55px;
     }
-
-    .detail {
-        margin: 0 0 5%;
-    }
-
-    .image {
-        float: center;
-        object-fit: contain;
+    .container{
         width: 100%;
-        height: auto;
+        margin-bottom: 3%;
     }
-
     .name_rating {
         float: left;
         width: 100%;
-        height: 45%;
-        margin: 5% 0 5%
+        margin: 5% 0 5%;
     }
 
-    p {
-        margin-bottom: 5px;
-        /* color:rgb(124, 124, 124)  */
-    }
-    .rating{
-        text-indent: 2em;        
-    }
 }
 
 @media (min-width: 600px) {
@@ -71,55 +77,24 @@ h3{
     h2{
         margin-bottom: 3%;
     }
-    p{
-        margin-bottom: 3%;
-    }
-
-    .detail{
-        /* padding: 0 0 45%; */
-        height: 40%; 
-    }
     .container{
-        /* padding: 30%; */
-        margin: 0 0 3%;
         width: 50%;
-        height: 100%;
-        float: left;
-        position: relative;
-        object-fit: contain;
-    }
-    .image{
-        height: 100%; 
-        /* max-width: auto; */ 
-        position: relative;
-        object-fit: contain;
     }
     .name_rating {
         width: 50%;
-        height: 30%;
-        float: right;
-        margin: 0 0 3%;
-    }
+        margin: 0 0 3%; 
+    } 
 }
 
 @media (min-width: 992px) {
     .head {
         margin-top: 35px;
     }
-    .detail{
-        height: 45%;
-    }
 }
 
 @media (min-width: 1200px) {
     .head {
         margin-top: 25px;
-    }
-    /* .image{
-        height: 20%;
-    } */
-    .detail{
-        height: 50%;
     }
     
 }
