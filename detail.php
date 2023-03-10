@@ -59,13 +59,27 @@ function _date($str){
   <link rel="stylesheet" type="text/css" href="detail.css?id=<?php echo rand(1, 100) ?>">
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
-    /*window.onload=function(){
-      if(window.screen.width >= 600){
-        container = document.getElementById("container");
-        nrHeight = (document.getElementById("name_rating").clientHeight).toString();
-        container.setAttribute("style","height: " + nrHeight + "px");
-      }
-    }*/
+    // function getAbsoluteHeight(el) {
+    //   // Get the DOM Node if you pass in a string
+    //   el = (typeof el === 'string') ? document.querySelector(el) : el; 
+      
+    //   var styles = window.getComputedStyle(el);
+    //   var margin = parseFloat(styles['marginTop']) +
+    //               parseFloat(styles['marginBottom']);
+
+    //   return Math.ceil(el.offsetHeight + margin);
+    // }
+    // window.onload=function(){
+    //   right_div = document.getElementById("name_rating");
+    //   container = document.getElementById("container");
+
+    //   div_height = getAbsoluteHeight("#rating_title"); + 
+    //                getAbsoluteHeight("#rating") *7 +
+    //                getAbsoluteHeight("#oldCover");
+    //   console.log(div_height);
+    //   right_div.setAttribute("style", "height: " + div_height.toString() + "px");
+    //   container.setAttribute("style", "height: " + div_height.toString() + "px");
+    // }
     function fixing(){
         alert("新功能，施工中");
     }
@@ -81,7 +95,8 @@ function _date($str){
     function oldCover(){
         var message = {
             bookID: '<?php echo $bookId ?>',
-            bookName: '<?php echo $name?>'
+            bookName: '<?php echo $name?>',
+            searchURL: 'www.google.com/search?q=<?php echo $name?>'
         };
         emailjs.send('service_ecyjr9k', 'template_egzx9ah', message)
         .then(function(response) {
@@ -150,19 +165,19 @@ function _date($str){
           <div class="container" id="container">
             <img id = "image" class="image" src=<?php echo $picture;?> alt="<?php echo $name;?>"> <!--這裡放圖片-->            
           </div>
-          <div class="name_rating" id="name_rating" style="display: inline-block; margin-bottom: 5%">
-            <h2><?php echo $name?></h2>
-            <p style="color: #2a906b"><?php echo $exam . ' / ' .  $subject . ' / ' . $category;?></p>
-            <p class="rating">綜合給分 &#11088 <?php echo round($overall, 1);?> </p>
-            <p class="rating">內容豐富程度 &#11088 <?php echo round($content, 1);?></p>
-            <p class="rating">難易度 &#11088 <?php echo round($difficulty, 1);?></p>
-            <p class="rating">詳解詳細程度 &#11088 <?php echo round($answer, 1);?></p>
-            <p class="rating">排版/美編/顏色 &#11088 <?php echo round($layout, 1);?></p>
-            <p style="color:rgb(124, 124, 124)">（評分人數：<?php echo $dataAmount;?>）</p>
+          <div class="name_rating" id="name_rating">
+            <h2 id="rating_title"><?php echo $name?></h2>
+            <span id="rating" style="color: #2a906b"><?php echo $exam . ' / ' .  $subject . ' / ' . $category;?></span>
+            <span class="rating">綜合給分 &#11088 <?php echo round($overall, 1);?> </span>
+            <span class="rating">內容豐富程度 &#11088 <?php echo round($content, 1);?></span>
+            <span class="rating">難易度 &#11088 <?php echo round($difficulty, 1);?></span>
+            <span class="rating">詳解詳細程度 &#11088 <?php echo round($answer, 1);?></span>
+            <span class="rating">排版/美編/顏色 &#11088 <?php echo round($layout, 1);?></span>
+            <span style="color:rgb(124, 124, 124)">（評分人數：<?php echo $dataAmount;?>）</span>
             
             <button id="oldCover" class="btn btn-outline-success" onclick="confirmEmail()" style="margin: 1%">這本書不是這個封面</button>
           </div>
-      </div><br>
+      </div>
       <div>
         <h3 style="margin: 5px;">其他評價</h3>
         <?php

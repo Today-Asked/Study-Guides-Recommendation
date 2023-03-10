@@ -52,6 +52,7 @@
     <link rel="icon" type="image/x-icon" href="icon.ico">
     <link rel="shortcut icon" type="image/x-icon" href="icon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="book_questionnaire.js"></script>
     <style>
         html, body{
             width: 100%;
@@ -237,6 +238,7 @@
                 <strong style="margin:0.5em;">來留言吧！</strong>
                 <textarea class="form-control" name="title" rows="1" cols="20" placeholder="標題（選填）" style="margin-bottom:1%;"></textarea>
                 <textarea class="form-control" name="comment" rows="4" cols="50" placeholder="留下想說的話..." style="margin-bottom:1%;" required></textarea>
+                <div class="invalid-feedback">請輸入評價</div>
                 <input type="hidden" name="theme" id="theme" value="studyPlan">
                 <center><input type="submit" class="btn btn-outline-success" style="margin-bottom: 5%;"></center>
             </form>
