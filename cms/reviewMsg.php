@@ -1,25 +1,25 @@
 <?php
-echo "<head><meta name='robots' content='noindex'></head>";
-session_start();
-if(!$_SESSION["login"]){
-    echo "<script>alert('permission denied'); location.href='/loginCMS.php';</script>";
-}
+require_once "auth.php";
+
 //echo $_SESSION["login"];
 ?>
-<head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-<script>
-    function review(id, pass){
-        if(pass == 1) url = "/cms/reviewMsg.php?review=1&id=" + id;
-        else url = "/cms/reviewMsg.php?review=0&id=" + id;
-        location.href = url;
-    }
-</script>
-</head>
-<body style='margin: 1%'></body>
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+        <script>
+            function review(id, pass){
+                if(pass == 1) url = "/cms/reviewMsg.php?review=1&id=" + id;
+                else url = "/cms/reviewMsg.php?review=0&id=" + id;
+                location.href = url;
+            }
+        </script>
+        <meta name="robots" content="noindex">
+    </head>
+    <body style='margin: 1%'>
 
-<?php
+    <?php
 require_once "../databaseLogin.php";
 $connection = new mysqli($hostname, $username, $password, $database);
 if($connection->error) die("database connection error!");
@@ -98,3 +98,5 @@ if(isset($_GET["id"])){
     echo "<script>location.href='/cms/reviewMsg.php'</script>";
 }
 ?>
+    </body>
+</html>
