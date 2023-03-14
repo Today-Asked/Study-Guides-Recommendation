@@ -1,9 +1,6 @@
 <?php
-echo "<head><meta name='robots' content='noindex'></head>";
-session_start();
-if(!$_SESSION["login"]){
-    echo "<script>alert('permission denied'); location.href='/loginCMS.php';</script>";
-}
+require_once "auth.php";
+
 require_once "../databaseLogin.php";
 $connection = new mysqli($hostname, $username, $password, $database);
 if($connection->error) die("database connection error!");
@@ -104,13 +101,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 
 ?>
-
-<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
-    <select name="choice">
-        <option value="deleteAComment">刪一則評論(請在下方輸入評論 id)</option>
-        <option value="resetCommentOfABook">刪除一本書的所有評論(請在下方輸入書本 id)</option>
-        <option value="deleteAMsg">刪除一則留言(請在下方輸入留言 id)</option>
-    </select><br>
-    <input type="text" name="id"><br>
-    <input type="submit">
-</form>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="robots" content="noindex">
+    </head>
+    <body>
+        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
+            <select name="choice">
+                <option value="deleteAComment">刪一則評論(請在下方輸入評論 id)</option>
+                <option value="resetCommentOfABook">刪除一本書的所有評論(請在下方輸入書本 id)</option>
+                <option value="deleteAMsg">刪除一則留言(請在下方輸入留言 id)</option>
+            </select><br>
+            <input type="text" name="id"><br>
+            <input type="submit">
+        </form>
+    </body>
+</html>
