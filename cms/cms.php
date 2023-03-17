@@ -1,13 +1,10 @@
 <?php
-echo "<head><meta name='robots' content='noindex'></head>";
-session_start();
-if(!$_SESSION["login"]){
-    echo "<script>alert('permission denied'); location.href='/loginCMS.php';</script>";
-}
+require_once "auth.php";
 ?>
 <!DOCTYPE HTML5>
 <head>
     <title>後台索引頁</title>
+    <meta name="robots" content="noindex">
 </head>
 <body>
     <a href="./reviewComment.php">審核評論</a><br>
