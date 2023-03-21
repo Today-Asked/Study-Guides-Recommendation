@@ -1,9 +1,5 @@
 <?php
-echo "<head><meta name='robots' content='noindex'></head>";
-session_start();
-if(!$_SESSION["login"]){
-    echo "<script>alert('permission denied'); location.href='loginCMS.php';</script>";
-}
+require_once "auth.php";
 
 require_once "../databaseLogin.php";
 $connection = new mysqli($hostname, $username, $password, $database);
@@ -91,40 +87,48 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 ?>
 
-<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post" enctype="multipart/form-data">
-    <label>科目：</label>
-    <select class="form-select" name="subject" onchange="window.location='<?php echo $PHP_SELF;?>?subject='+this.value" >
-        <option value="    " >    </option>
-        <option value="國文" <?php if(isset($get_subject) && $get_subject ==="國文") echo "selected";?>>國文</option>
-        <option value="數學" <?php if(isset($get_subject) && $get_subject ==="數學") echo "selected";?>>數學</option>
-        <option value="英文" <?php if(isset($get_subject) && $get_subject ==="英文") echo "selected";?>>英文</option>
-        <option value="物理" <?php if(isset($get_subject) && $get_subject ==="物理") echo "selected";?>>物理</option>
-        <option value="化學" <?php if(isset($get_subject) && $get_subject ==="化學") echo "selected";?>>化學</option>
-        <option value="地科" <?php if(isset($get_subject) && $get_subject ==="地科") echo "selected";?>>地科</option>
-        <option value="生物" <?php if(isset($get_subject) && $get_subject ==="生物") echo "selected";?>>生物</option>
-        <option value="自然" <?php if(isset($get_subject) && $get_subject ==="自然") echo "selected";?>>自然</option>
-        <option value="歷史" <?php if(isset($get_subject) && $get_subject ==="歷史") echo "selected";?>>歷史</option>
-        <option value="地理" <?php if(isset($get_subject) && $get_subject ==="地理") echo "selected";?>>地理</option>
-        <option value="公民" <?php if(isset($get_subject) && $get_subject ==="公民") echo "selected";?>>公民</option>
-        <option value="社會" <?php if(isset($get_subject) && $get_subject ==="社會") echo "selected";?>>社會</option>
-        <option value="其他" <?php if(isset($get_subject) && $get_subject ==="其他") echo "selected";?>>其他</option>
-    </select><br>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="robots" content="noindex">
+    </head>
+    <body>
+        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post" enctype="multipart/form-data">
+            <label>科目：</label>
+            <select class="form-select" name="subject" onchange="window.location='<?php echo $PHP_SELF;?>?subject='+this.value" >
+                <option value="    " >    </option>
+                <option value="國文" <?php if(isset($get_subject) && $get_subject ==="國文") echo "selected";?>>國文</option>
+                <option value="數學" <?php if(isset($get_subject) && $get_subject ==="數學") echo "selected";?>>數學</option>
+                <option value="英文" <?php if(isset($get_subject) && $get_subject ==="英文") echo "selected";?>>英文</option>
+                <option value="物理" <?php if(isset($get_subject) && $get_subject ==="物理") echo "selected";?>>物理</option>
+                <option value="化學" <?php if(isset($get_subject) && $get_subject ==="化學") echo "selected";?>>化學</option>
+                <option value="地科" <?php if(isset($get_subject) && $get_subject ==="地科") echo "selected";?>>地科</option>
+                <option value="生物" <?php if(isset($get_subject) && $get_subject ==="生物") echo "selected";?>>生物</option>
+                <option value="自然" <?php if(isset($get_subject) && $get_subject ==="自然") echo "selected";?>>自然</option>
+                <option value="歷史" <?php if(isset($get_subject) && $get_subject ==="歷史") echo "selected";?>>歷史</option>
+                <option value="地理" <?php if(isset($get_subject) && $get_subject ==="地理") echo "selected";?>>地理</option>
+                <option value="公民" <?php if(isset($get_subject) && $get_subject ==="公民") echo "selected";?>>公民</option>
+                <option value="社會" <?php if(isset($get_subject) && $get_subject ==="社會") echo "selected";?>>社會</option>
+                <option value="其他" <?php if(isset($get_subject) && $get_subject ==="其他") echo "selected";?>>其他</option>
+            </select><br>
 
-    <label>書名：</label>
-    <select class="form-select" name="book">
-    <option></option>
-    <?php
-    if(isset($get_subject)){
-        $select = "SELECT * from book WHERE subject='$get_subject'";
-        $result = $connection->query($select);
-        if($result->num_rows > 0){
-            while($row = $result->fetch_assoc()){
-                echo "<option value=".$row['id'].">".$row['name'].'&nbsp&nbsp'.$row['publisher']."</option>";
-            }
-        } else {
-            echo "error";
-        }
-    }?></select><br>
-    <input type="file" name="picture"><br>
-    <input type="submit">
-</form>
+            <label>書名：</label>
+            <select class="form-select" name="book">
+            <option></option>
+            <?php
+            if(isset($get_subject)){
+                $select = "SELECT * from book WHERE subject='$get_subject'";
+                $result = $connection->query($select);
+                if($result->num_rows > 0){
+                    while($row = $result->fetch_assoc()){
+                        echo "<option value=".$row['id'].">".$row['name'].'&nbsp&nbsp'.$row['publisher']."</option>";
+                    }
+                } else {
+                    echo "error";
+                }
+            }?></select><br>
+            <input type="file" name="picture"><br>
+            <input type="submit">
+        </form>
+    </body>
+</html>

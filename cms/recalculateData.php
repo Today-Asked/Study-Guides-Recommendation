@@ -1,9 +1,6 @@
 <?php
-echo "<head><meta name='robots' content='noindex'></head>";
-session_start();
-if(!$_SESSION["login"]){
-    echo "<script>alert('permission denied'); location.href='/loginCMS.php';</script>";
-}
+require_once "auth.php";
+
 require_once "../databaseLogin.php";
 $connection = new mysqli($hostname, $username, $password, $database);
 if($connection->error) die("database connection error!");
@@ -34,7 +31,7 @@ while($row = $result->fetch_assoc()){
     $updateBook = "UPDATE book SET dataAmount='$dataAmount', overall='$overall', content='$content', 
         difficulty='$difficulty', answer='$answer', layout='$layout' WHERE id='$id'";
     if($connection->query($updateBook) === true){
-        echo "update data successfully";
+        echo "update data successfully<br />";
     } else {
         echo "fail to update data";
     }
