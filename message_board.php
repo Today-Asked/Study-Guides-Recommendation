@@ -202,7 +202,7 @@
         <div class="content">
             <h2>留言板</h2>
             <p>這裡是一個匿名的小空間，無論是互助或者是取暖，都在這裡留下你的心情吧！<br>
-                現在在讀書技巧版留言，審核通過後就可以獲得書愛流動的知識貨幣，至該網站兌換書籍。<br>
+                現在在讀書技巧版留言，審核通過後並完成粉專指定事項後即可參加抽獎活動。<br>
                 <div class="alert alert-warning" role="alert">
                     注意：留言要經過審核才會刊登在網頁上，請勿發表具有攻擊性、冒犯性以及歧視性等字眼。
                 </div>
@@ -314,7 +314,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") { // insert data
         if($category == 0){
             echo "<script>
                 $('document').ready(function(){
-                    var data = '留言成功，經審核後就會出現在留言板上囉！<br>您的兌換碼: " . $redeemCode . "<br>（留言審核通過後可至合作網站書愛流動兌換知識貨幣）';
+                    var data = '留言成功，經審核後就會出現在留言板上囉！<br>您的抽獎兌換碼: " . $redeemCode . "<br>（評論經審核通過並完成粉專指定事項後可參加抽獎活動）';
                     $('#redeemCodeAlertBody').html(data);
                     $('#redeemCodeAlert').modal('show');
                     $('#redeemCodeAlert').on('hidden.bs.modal', function(){
