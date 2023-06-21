@@ -26,5 +26,51 @@
 無論是讀書技巧分享、或是壓力好大需要找人取暖，都歡迎在留言板留下想說的話！
 >即日起在留言版留言，審核通過後便能得到知識貨幣，至書愛流動兌換書籍。
 注意留言必須有意義，也不能發表具有攻擊性、冒犯性以及歧視性等字眼，這樣審核是不會通過的喔！
+## 開源相關
+### 資料表
+我們使用 phpMyAdmin 建立資料表，總共有三個，Questionnaire 放每則評論的資訊，Book 放書籍基本資料，msgBoard 內有留言內容。以下為各資料表的欄位。
+#### 1. Questionnaire 
+##### 基本資料
+* Id 流水號
+* Date 評論上傳日期
+* Book 評論的書本編號(對應Book的Id)
+
+##### 評分（1-5 顆星）
+* Overall 綜合評分 
+* Content 內容豐富程度
+* Difficulty 難易度
+* Answer 詳解詳細程度
+* Layout 排版 / 顏色 / 美編
+##### 文字欄位
+* Comment 對這本書的其他評價
+
+
+#### 2. Book
+##### 基本資料
+* Id 流水號
+* Subject 科目
+* Name 書本完整名稱
+* Exam 學測 / 指考 / 會考 / 段考 / 多益 / 英檢
+* Category 工具書 / 題庫 / 講義
+* Publisher 出版社
+* Picture 圖片的黨名
+* dataAmount 評論筆數
+##### 評分的平均值
+* Overall 綜合評分 
+* Content 內容豐富程度
+* Difficulty 難易度
+* Answer 詳解詳細程度
+* Layout 排版 / 顏色 / 美編
+
+#### 3. msgBoard
+- id 流水號
+- time 時間
+- category 心情 / 讀書技巧
+- msg 內容
+- review 審核
+- redeemCode 兌換碼
+
+### LICENSE
+~~雖然我們很想說自己是啤酒軟體~~但我們最後採用 MIT License，見 [LICENSE](https://github.com/Today-Asked/Study-Guides-Recommendation/blob/main/LICENSE)
 ## Contact us
 參考書推薦平台感謝您的蒞臨！有任何指教也歡迎填寫 [意見回饋表單](https://docs.google.com/forms/d/e/1FAIpQLSeViVaUA45k-oR1S5p593Mw2yjy55vACfNlcOCuwWN57kDwhw/viewform)，或是私訊 [IG粉專](https://www.instagram.com/study_guides_recommend/) 或 [email](mailto:study.guides.recommend@gmail.com) 讓我們可以變得更好！
