@@ -154,7 +154,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     <i class="bi bi-question-circle-fill" style="font-size: 0.7em; color: rgb(139, 139, 139)"></i>
                 </button>
             </h1>
-            現在撰寫評論，待審核通過之後將會發放書愛流動的知識貨幣，能夠至該網站換取書籍！
+            現在撰寫評論，待審核通過並完成粉專指定事項後可參加抽獎活動！
             <div class="alert alert-warning" role="alert">
                 注意：評論經過審查後才會出現在網頁上，請勿發表髒話、過激（e.g. 這本書是垃圾）或一切與此書無關、無意義的言論，這樣是不會通過審核的喔！
             </div>
@@ -368,7 +368,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($bookriver) {
             echo "<script>
             $('document').ready(function(){
-              var data = 'Hello, 來自書愛流動的使用者<br>成功新增評論，感謝您的協助！<br>您的兌換碼: " . $redeemCode . "<br>（評論經審核通過後可至合作網站書愛流動兌知識貨幣換）';
+              var data = 'Hello, 來自書愛流動的使用者<br>成功新增評論，感謝您的協助！<br>您的抽獎兌換碼: " . $redeemCode . "<br>（評論經審核通過並完成粉專指定事項後可參加抽獎活動）';
               $('#redeemCodeAlertBody').html(data);
               $('#redeemCodeAlert').modal('show');
               $('#redeemCodeAlert').on('hidden.bs.modal', function(){
@@ -379,7 +379,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             echo "<script>
             $('document').ready(function(){
-              var data = '成功新增評論，感謝您的協助！<br>您的兌換碼: " . $redeemCode . "<br>（評論經審核通過後可至合作網站書愛流動兌換知識貨幣）';
+              var data = '成功新增評論，感謝您的協助！<br>您的抽獎兌換碼: " . $redeemCode . "<br>（評論經審核通過並完成粉專指定事項後可參加抽獎活動）';
               $('#redeemCodeAlertBody').html(data);
               $('#redeemCodeAlert').modal('show');
               $('#redeemCodeAlert').on('hidden.bs.modal', function(){
