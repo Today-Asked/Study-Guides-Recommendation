@@ -1,9 +1,6 @@
 <?php
 require_once "databaseLogin.php";
-$connection = new mysqli($hostname, $username, $password, $database);
-if($connection->error) die("database connection error!");
-$connection->set_charset("utf8");
-//echo $connection -> character_set_name();
+require "connectDB.php";
 $subject = $name = $publisher = $date = "";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -15,12 +12,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     //echo "<script language='javascript'>window.console.log('" . $publisher . "')</script>";
 
     if($_FILES['picture']['error'] === UPLOAD_ERR_OK){
-        $clientId = 'bea210f369c761e';
         $img = file_get_contents($_FILES['picture']['tmp_name']);
         $curl_post_array = array('image' => base64_encode($img));
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, 'https://api.imgur.com/3/image');
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Client-ID ' . $clientId));
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Client-ID ' . $imgurClientId));
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $curl_post_array);
@@ -29,10 +25,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $Received_JsonParse = json_decode($curl_result, true);
         if ($Received_JsonParse['success'] == true) {
             $ImgURL = $Received_JsonParse['data']['link'];
+            $data = [$subject, $name, $exam, $category, $publisher, $ImgURL];
             $insert = "INSERT INTO book (subject, name, exam, category, publisher, picture) 
-                VALUES ('$subject', '$name', '$exam', '$category', '$publisher', '$ImgURL')";
-            
-            if($connection->query($insert) === true){
+                VALUES (?, ?, ?, ?, ?, ?)";
+            $result = $connection->prepare($insert);
+            if($result->execute($data)){
                 echo "<script language='javascript'>alert('成功新增書籍，感謝您的幫忙！');location.href='/newBook.php';</script>";
                 //echo "success";
             } else {
