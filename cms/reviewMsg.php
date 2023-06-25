@@ -19,12 +19,9 @@ require_once "auth.php";
     </head>
     <body style='margin: 1%'>
 
-    <?php
+<?php
 require_once "../databaseLogin.php";
-$connection = new mysqli($hostname, $username, $password, $database);
-if($connection->error) die("database connection error!");
-//else echo "Success!";
-$connection->set_charset("utf8");
+require "../connectDB.php";
 
 function createTable($review, $connection){
     if($review === 0) echo "<h2>未審核</h2><br>";
@@ -32,15 +29,16 @@ function createTable($review, $connection){
     else echo "<h2>審核未通過</h2>";
 
     $select = "SELECT * FROM msgBoard where review='$review'";
-    $result = $connection->query($select);
-    if($result -> num_rows == 0){
+    $result = $connection->prepare($select);
+    $result->execute();
+    if($result->rowCount() == 0){
         echo "no data<br>";
         return;
     }
     echo "<table cellpadding=7 align=center border='1' class='table table-hover table-bordered'>\n<tr>\n";
     if($review === 0) echo "<th width='90px'>review&nbsp;</th>\n";
     echo "<th>id</th>\n<th>類別</th>\n<th>timestamp</th>\n<th>標題</th>\n<th>留言</th>\n</tr>";
-    while($row = $result -> fetch_assoc()){
+    while($row = $result -> fetch(PDO::FETCH_ASSOC)){
         if($row["category"] == 0) $type = "讀書技巧";
         else $type = "心情";
         if($review === 0){
@@ -51,7 +49,7 @@ function createTable($review, $connection){
         echo "<td>" . $type . "</td>\n";
         echo "<td>" . $row["time"] . "</td>\n";
         echo "<td>" . $row["title"] . "</td>\n";
-        echo "<td>" . $row["msg"] . "</td>\n";     
+        echo "<td>" . $row["msg"] . "</td>\n"; 
         echo "</tr>";   
     }
     echo "</table>";
@@ -66,12 +64,16 @@ if(isset($_GET["id"])){
     if($_GET["review"] == 1) $review = 1;
     else $review = -1;
     $update = "UPDATE msgBoard SET review='$review' WHERE id='$id'";
-    $connection->query($update);
+    $updateResult = $connection->prepare($update);
+    $updateResult->execute();
+
+    // send redeemCode to booksriver
     if($review == 1){
         $select = "SELECT redeemCode FROM msgBoard WHERE id='$id'";
-        $result = $connection->query($select);
-        if($result->num_rows > 0){
-            $row = $result -> fetch_assoc();
+        $result = $connection->prepare($select);
+        $result->execute();
+        if($result->rowCount() > 0){
+            $row = $result -> fetch(PDO::FETCH_ASSOC);
             if($row["category"] == 0){
                 $redeemCode = $row["redeemCode"];
                 $fields = [ 'redeemCode' => $redeemCode ];
