@@ -1,10 +1,6 @@
 <?php
 require_once "databaseLogin.php";
 require "connectDB.php";
-/*$connection = new mysqli($hostname, $username, $password, $database);
-if ($connection->error) die("database connection error!");
-//else echo "Success!";
-$connection->set_charset("utf8");*/
 
 $subject = $book = $category = $subcategory = $overall = $content = $difficulty = $answer = $layout = $comment = "";
 $bookriver = 0;
@@ -209,9 +205,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         $result = $connection->prepare($select);
                         $result->bindValue(':id', $get_bookId);
                         $result->execute();
-                        $data = $result->fetch(PDO::FETCH_ASSOC);
-                        echo "<option value=" . $get_bookId . ">" . $data['publisher'] . '&nbsp&nbsp' . $data['name'] . "</option>";
-                        echo "<script type='text/javascript'>document.getElementById('subject').value='" . $data["subject"] . "';</script>";
+                        if($result->rowCount() > 0) {
+                            $data = $result->fetch(PDO::FETCH_ASSOC);
+                            echo "<option value=" . $get_bookId . ">" . $data['publisher'] . '&nbsp&nbsp' . $data['name'] . "</option>";
+                            echo "<script type='text/javascript'>document.getElementById('subject').value='" . $data["subject"] . "';</script>";
+                        }
                     } else if (isset($get_subject)) {
                         $select = "SELECT * from book WHERE subject=:subject";
                         $result = $connection->prepare($select);

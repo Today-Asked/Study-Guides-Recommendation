@@ -1,35 +1,32 @@
 <?php
 require_once "databaseLogin.php";
-$connection = new mysqli($hostname, $username, $password, $database);
-if ($connection->error) die("database connection error!");
-//else echo "Success!";
-$connection->set_charset("utf8");
+require "connectDB.php";
 
 $bookId = $_GET['id'];
-$bookDetail = "SELECT * FROM book WHERE id='$bookId'";
-$result = $connection->query($bookDetail);
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $subject = $row['subject'];
-        $name = $row['name'];
-        $exam = $row['exam'];
-        $publisher = $row['publisher'];
-        $picture = $row['picture'];
-        $category = $row['category'];
-        $dataAmount = $row['dataAmount'];
-        $overall = $row['overall'];
-        $content = $row['content'];
-        $difficulty = $row['difficulty'];
-        $answer = $row['answer'];
-        $layout = $row['layout'];
-    }
+$bookDetail = "SELECT * FROM book WHERE id=:id";
+$result = $connection->prepare($bookDetail);
+$result->bindValue(':id', $bookId);
+$result->execute();
+
+if($row = $result->fetch(PDO::FETCH_ASSOC)){
+    $subject = $row['subject'];
+    $name = $row['name'];
+    $exam = $row['exam'];
+    $publisher = $row['publisher'];
+    $picture = $row['picture'];
+    $category = $row['category'];
+    $dataAmount = $row['dataAmount'];
+    $overall = $row['overall'];
+    $content = $row['content'];
+    $difficulty = $row['difficulty'];
+    $answer = $row['answer'];
+    $layout = $row['layout'];
 } else {
-    echo "<script>alert('查無此書');location.href='/query.php'</script>";
+    echo "<script type='text/javascript'>alert('查無此書');location.href='/index.php';</script>";
 }
-function _date($str)
-{
+function _date($str) {
     $result = "";
-    $result = $str[0] . $str[1] . $str[2] . $str[3] . " 年 " . $str[4] . $str[5] . " 月 " . $str[6] . $str[7] . " 日 ";
+    $result = substr($str, 0, 4) . " 年 " . substr($str, 4, 2) . " 月 " . substr($str, 6, 2) . " 日 ";
     return $result;
 }
 ?>
@@ -183,11 +180,13 @@ function _date($str)
             <div>
                 <h3 style="margin: 5px;">其他評價</h3>
                 <?php
-                $select = "SELECT date, comment, bookriver FROM questionnaire WHERE book='$bookId' AND review=1 ORDER BY id DESC";
-                $_result = $connection->query($select);
+                $select = "SELECT date, comment, bookriver FROM questionnaire WHERE book=:bookId AND review=1 ORDER BY id DESC";
+                $_result = $connection->prepare($select);
+                $_result->bindValue(':bookId', $bookId);
+                $_result->execute();
                 //echo "<script language='javascript'>window.console.log('" . $connection->error . "');</script>";
-                if ($_result->num_rows > 0) {
-                    while ($_row = $_result->fetch_assoc()) {
+                if ($_result->rowCount() > 0) {
+                    while ($_row = $_result->fetch(PDO::FETCH_ASSOC)) {
                         if (!empty($_row['comment'])) {
                             echo "<div class='comment'>\n";
                             echo "<small style='color:rgb(142, 138, 138);'>" . _date($_row['date']) . "</small>";
