@@ -1,9 +1,6 @@
 <?php
 require_once "databaseLogin.php";
-$connection = new mysqli($hostname, $username, $password, $database);
-if($connection->error) die("database connection error!");
-//else echo "Success!";
-$connection->set_charset("utf8");
+require "connectDB.php";
 
 function test_input($data) {
     $data = trim($data);
@@ -199,15 +196,20 @@ $subject = $search = $category = $exam = '%%';
                     }
                     //echo "<script language='javascript'>window.console.log('" . $subject . " / " . $search . " / " . $category . " / " . $exam . "');</script>";
                     
-                    $select = "SELECT * FROM book WHERE subject LIKE '$subject' AND name LIKE '$search' AND 
-                        category LIKE '$category' AND exam LIKE '$exam' ORDER BY overall DESC, dataAmount DESC";
+                    $select = "SELECT * FROM book WHERE subject LIKE :subject AND name LIKE :search AND 
+                        category LIKE :category AND exam LIKE :exam ORDER BY overall DESC, dataAmount DESC";
                     //echo "<script language='javascript'>window.console.log('" . $select . "');</script>";
 
-                    $result = $connection->query($select);
+                    $result = $connection->prepare($select);
+                    $result->bindValue(':subject', $subject);
+                    $result->bindValue(':search', $search);
+                    $result->bindValue(':category', $category);
+                    $result->bindValue(':exam', $exam);
+                    $result->execute();
                     echo "<h1 style='text-align: center;'>搜尋結果</h1>";
-                    if($result->num_rows > 0){
+                    if($result->rowCount() > 0){
                        echo "<p>點按書籍封面看更多詳細資料</p>";
-                        while($row = $result->fetch_assoc()){
+                        while($row = $result->fetch(PDO::FETCH_ASSOC)){
                             echo "<div class='card mb-0' type='button' onclick='detail(" . $row['id'] . ")' target='_blank' style='max-width: 500px; display: inline-block; margin: 1%'>\n";
                             echo "<div class='row g-0'>\n";
                             echo "<div class='col-md-4 sm-6'>\n";
@@ -228,7 +230,7 @@ $subject = $search = $category = $exam = '%%';
                     echo '<a href="https://social-plugins.line.me/lineit/share?url=https://study-guides.dstw.dev/questionnaire.php"><img src="line.png" style="width:2em; margin: 0 0.5em 0.5em;"></a>';
                     echo '<a href="fb-messenger://share/?link=https://study-guides.dstw.dev/questionnaire.php"><img src="messenger.png" style="width:2em; margin: 0 0.5em 0.5em;"></a>';
                 }
-		                ?>
+		        ?>
             </div>
         </div>
         </center>
