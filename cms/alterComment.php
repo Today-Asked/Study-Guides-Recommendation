@@ -2,10 +2,7 @@
 require_once "auth.php";
 
 require_once "../databaseLogin.php";
-$connection = new mysqli($hostname, $username, $password, $database);
-if($connection->error) die("database connection error!");
-//else echo "Success!";
-$connection->set_charset("utf8");
+require "../connectDB.php";
 
 $id = $choice = '';
 
@@ -14,31 +11,34 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $choice = $_POST["choice"];
 
     if($choice == "deleteAComment"){
-        $select = "SELECT * FROM questionnaire WHERE id='$id'";
-        $result = $connection->query($select);
-        if($result->num_rows > 0){
-            while($row = $result->fetch_assoc()){
-                $bookId = $row['book'];
-                $overall = $row['overall'];
-                $content = $row['content'];
-                $difficulty = $row['difficulty'];
-                $answer = $row['answer'];
-                $layout = $row['layout'];
-                $review = $row["review"];
-            }
-            echo "data to delete: " . $bookId . " " . $overall . " " . $content . " " . $difficulty . " " . $answer . " " . $layout . "<br>";
+        $select = "SELECT * FROM questionnaire WHERE id=:id";
+        $result = $connection->prepare($select);
+        $result->bindValue(':id', $id);
+        $result->execute();
+        if($result->rowCount() > 0){
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+            $bookId = $row['book'];
+            $overall = $row['overall'];
+            $content = $row['content'];
+            $difficulty = $row['difficulty'];
+            $answer = $row['answer'];
+            $layout = $row['layout'];
+            $review = $row["review"];
+            echo "deleted data: bookId = " . $bookId . "<br>overall = " . $overall . "<br>difficulty = " . $difficulty;
+            echo "<br>content = " . $content . "<br>answer = " . $answer . "<br>layout = " . $layout . "<br>";
             if($review == 1){
-                $selectBook = "SELECT * FROM book WHERE id='$bookId'";
-                $_result = $connection->query($selectBook);
-                if($_result->num_rows > 0){
-                    while($_row = $_result->fetch_assoc()){
-                        $dataAmount = $_row['dataAmount'];
-                        $_overall = $_row['overall'];
-                        $_content = $_row['content'];
-                        $_difficulty = $_row['difficulty'];
-                        $_answer = $_row['answer'];
-                        $_layout = $_row['layout'];
-                    }
+                $selectBook = "SELECT * FROM book WHERE id=:bookId";
+                $_result = $connection->prepare($selectBook);
+                $_result->bindValue(':bookId', $bookId);
+                $_result->execute();
+                if($_result->rowCount() > 0){
+                    $_row = $_result->fetch(PDO::FETCH_ASSOC);
+                    $dataAmount = $_row['dataAmount'];
+                    $_overall = $_row['overall'];
+                    $_content = $_row['content'];
+                    $_difficulty = $_row['difficulty'];
+                    $_answer = $_row['answer'];
+                    $_layout = $_row['layout'];
                     echo "<book> exist data: " . $dataAmount . " " . $_overall . " " . $_content . " " . $_difficulty . " " . $_answer . " " . $_layout . "<br>";
 
                     $newOverall = ($_overall * $dataAmount - $overall) / ($dataAmount - 1);
@@ -49,53 +49,83 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $newDataAmount = $dataAmount - 1;
                     echo "<book> new data: " . $newDataAmount . " " . $newOverall . " " . $newContent . " " . $newDifficulty . " " . $newAnswer . " " . $newLayout . "<br>";
 
-                    $update = "UPDATE book SET dataAmount='$newDataAmount', overall='$newOverall', difficulty='$newDifficulty',
-                        answer='$newAnswer', layout='$newLayout' WHERE id='$bookId'";
-                    $delete = "DELETE FROM questionnaire WHERE id='$id'";
-                    if($connection->query($update) === true){
-                        echo "成功更新 book 資料表 編號" . $bookId . "<br>";
-                    } else {
-                        echo "error1";
+                    $data = [$newDataAmount, $newOverall, $newContent, $newDifficulty, $newAnswer, $newLayout];
+                    $update = "UPDATE book SET dataAmount=?, overall=?, content=?,
+                        difficulty=?, answer=?, layout=? WHERE id='$bookId'";
+                    $updateResult = $connection->prepare($update);
+                    try {
+                        if($updateResult->execute($data)){
+                            echo "成功更新 book 資料表 編號 " . $bookId . "<br>";
+                        } else {
+                            echo "更新資料表 book 失敗<br>";
+                        }
+                    } catch (PDOException $error) {
+                        echo "更新資料表 book 失敗<br>error msg: " . $error . "<br>";
                     }
-                    if($connection->query($delete) === true){
-                        echo "成功刪除編號" . $id . "評論";
-                    } else {
-                        echo "error2";
+                    $delete = "DELETE FROM questionnaire WHERE id='$id'";
+                    $deleteResult = $connection->prepare($delete);
+                    try {
+                        if($deleteResult->execute()){
+                            echo "成功刪除編號 " . $id . " 評論<br>"; 
+                        } else {
+                            echo "刪除失敗<br>";
+                        }
+                    } catch (PDOException $error) {
+                        echo "刪除失敗<br>error msg: " . $error . "<br>";
                     }
                 } else {
                     echo "此評論之書籍不存在";
                 }
             } else { // if not reviewed
                 $delete = "DELETE FROM questionnaire WHERE id='$id'";
-                if($connection->query($delete) === true){
-                    echo "成功刪除編號" . $id . "評論";
-                } else {
-                    echo "error";
+                $result = $connection->prepare($delete);
+                try {
+                    if($result->execute()){
+                        echo "成功刪除編號 " . $id . " 的未審核評論<br>";
+                    } else {
+                        echo "刪除失敗<br>";
+                    }
+                } catch (PDOException $error) {
+                    echo "刪除失敗<br>error msg: " . $error . "<br>";
                 }
             }
         } else {
             echo "查無此筆資料";
         }
-    } else if($choice == "resetCommentOfABook"){
+    } else if ($choice == "resetCommentOfABook") {
         $delete = "DELETE FROM questionnaire WHERE book='$id'";
-        if($connection->query($delete) === true){
-            echo "成功刪除書籍編號為 " . $id . " 的所有評論<br>";
-        } else {
-            echo "error";
+        $result = $connection->prepare($delete);
+        try {
+            if($result->execute()){
+                echo "成功刪除書籍編號為 " . $id . " 的所有評論<br>";
+            } else {
+                echo "刪除失敗<br>";
+            }
+        } catch (PDOException $error){
+            echo "刪除失敗<br>error msg: " . $error . "<br>";
         }
-
         $update = "UPDATE book SET dataAmount=0, overall=0.000, content=0.000, difficulty=0.000, answer=0.000, layout=0.000 WHERE id='$id'";
-        if($connection->query($update) === true){
-            echo "成功重置書籍編號" . $id;
-        } else {
-            echo "error2";
+        $updateResult = $connection->prepare($update);
+        try {
+            if ($updateResult->execute()) {
+                echo "成功重置書籍編號" . $id . "<br>";
+            } else {
+                echo "重置書籍編號 " . $id . " 失敗<br>";
+            }
+        } catch (PDOException $error) {
+            echo "重置書籍編號 " . $id . " 失敗<br>error msg: " . $error . "<br>";
         }
-    } else if($choice == "deleteAMsg"){
+    } else if ($choice == "deleteAMsg") {
         $delete = "DELETE FROM msgBoard WHERE id='$id'";
-        if($connection->query($delete) === true){
-            echo "成功刪除編號為 " . $id . " 的留言<br>";
-        } else {
-            echo "error";
+        $result = $connection->prepare($delete);
+        try {
+            if($result->execute()) {
+                echo "成功刪除編號為 " . $id . " 的留言<br>";
+            } else {
+                echo "刪除編號為 " . $id . " 的留言失敗<br>";
+            }
+        } catch (PDOException $error) {
+            echo "刪除編號為 " . $id . " 的留言失敗<br>error msg: " . $error . "<br>";
         }
     }
 }
