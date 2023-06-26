@@ -40,13 +40,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $_answer = $_row['answer'];
                     $_layout = $_row['layout'];
                     echo "<book> exist data: " . $dataAmount . " " . $_overall . " " . $_content . " " . $_difficulty . " " . $_answer . " " . $_layout . "<br>";
-
-                    $newOverall = ($_overall * $dataAmount - $overall) / ($dataAmount - 1);
-                    $newContent = ($_content * $dataAmount - $content) / ($dataAmount - 1);
-                    $newDifficulty = ($_difficulty * $dataAmount - $difficulty) / ($dataAmount - 1);
-                    $newAnswer = ($_answer * $dataAmount - $answer) / ($dataAmount - 1);     
-                    $newLayout = ($_layout * $dataAmount - $layout) / ($dataAmount - 1);  
-                    $newDataAmount = $dataAmount - 1;
+                    if($dataAmount != 1) {
+                        $newOverall = ($_overall * $dataAmount - $overall) / ($dataAmount - 1);
+                        $newContent = ($_content * $dataAmount - $content) / ($dataAmount - 1);
+                        $newDifficulty = ($_difficulty * $dataAmount - $difficulty) / ($dataAmount - 1);
+                        $newAnswer = ($_answer * $dataAmount - $answer) / ($dataAmount - 1);     
+                        $newLayout = ($_layout * $dataAmount - $layout) / ($dataAmount - 1);  
+                        $newDataAmount = $dataAmount - 1;
+                    } else {
+                        $newOverall = $newContent = $newDifficulty = $newAnswer = $newLayout = $newDataAmount = 0;
+                    }
                     echo "<book> new data: " . $newDataAmount . " " . $newOverall . " " . $newContent . " " . $newDifficulty . " " . $newAnswer . " " . $newLayout . "<br>";
 
                     $data = [$newDataAmount, $newOverall, $newContent, $newDifficulty, $newAnswer, $newLayout];
