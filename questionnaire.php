@@ -1,15 +1,12 @@
 <?php
 require_once "databaseLogin.php";
-$connection = new mysqli($hostname, $username, $password, $database);
-if ($connection->error) die("database connection error!");
-//else echo "Success!";
-$connection->set_charset("utf8");
+require "connectDB.php";
 
 $subject = $book = $category = $subcategory = $overall = $content = $difficulty = $answer = $layout = $comment = "";
 $bookriver = 0;
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    $get_subject = $_GET["subject"];
-    $get_bookId = $_GET["book"];
+    if(isset($_GET["subject"])) $get_subject = $_GET["subject"];
+    if(isset($_GET["book"])) $get_bookId = $_GET["book"];
     //echo $get_subject;
     if (isset($_GET["code"])) {
         $code = $_GET["code"];
@@ -183,46 +180,45 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="needs-validation" novalidate onsubmit="return newComment();">
                 <label>科目：</label>
 
-                <select class="form-select" name="subject" onchange="window.location='<?php echo $PHP_SELF; ?>?subject='+this.value+'&code='+document.getElementById('bookriver').getAttribute('value');" required>
+                <select class="form-select" id='subject' name="subject" onchange="window.location='<?php echo $_SERVER['PHP_SELF']; ?>?subject='+this.value+'&code='+document.getElementById('bookriver').getAttribute('value');" required>
                     <option value=""> </option>
-                    <option value="國文" <?php if (isset($get_subject) && $get_subject === "國文") echo "selected"; ?>>國文</option>
-                    <option value="數學" <?php if (isset($get_subject) && $get_subject === "數學") echo "selected"; ?>>數學</option>
-                    <option value="英文" <?php if (isset($get_subject) && $get_subject === "英文") echo "selected"; ?>>英文</option>
-                    <option value="物理" <?php if (isset($get_subject) && $get_subject === "物理") echo "selected"; ?>>物理</option>
-                    <option value="化學" <?php if (isset($get_subject) && $get_subject === "化學") echo "selected"; ?>>化學</option>
-                    <option value="地科" <?php if (isset($get_subject) && $get_subject === "地科") echo "selected"; ?>>地科</option>
-                    <option value="生物" <?php if (isset($get_subject) && $get_subject === "生物") echo "selected"; ?>>生物</option>
-                    <option value="自然" <?php if (isset($get_subject) && $get_subject === "自然") echo "selected"; ?>>自然</option>
-                    <option value="歷史" <?php if (isset($get_subject) && $get_subject === "歷史") echo "selected"; ?>>歷史</option>
-                    <option value="地理" <?php if (isset($get_subject) && $get_subject === "地理") echo "selected"; ?>>地理</option>
-                    <option value="公民" <?php if (isset($get_subject) && $get_subject === "公民") echo "selected"; ?>>公民</option>
-                    <option value="社會" <?php if (isset($get_subject) && $get_subject === "社會") echo "selected"; ?>>社會</option>
-                    <option value="其他" <?php if (isset($get_subject) && $get_subject === "其他") echo "selected"; ?>>其他</option>
+                    <option value="國文">國文</option>
+                    <option value="數學">數學</option>
+                    <option value="英文">英文</option>
+                    <option value="物理">物理</option>
+                    <option value="化學">化學</option>
+                    <option value="地科">地科</option>
+                    <option value="生物">生物</option>
+                    <option value="自然">自然</option>
+                    <option value="歷史">歷史</option>
+                    <option value="地理">地理</option>
+                    <option value="公民">公民</option>
+                    <option value="社會">社會</option>
+                    <option value="其他">其他</option>
                 </select><br>
 
                 <label>書名：</label>
                 <select class="form-select" name="book" id="book" required>
                     <?php
                     if (isset($get_bookId)) {
-                        $select = "SELECT name, publisher FROM book WHERE id='$get_bookId'";
-                        $result = $connection->query($select);
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<option value=" . $get_bookId . ">" . $row['publisher'] . '&nbsp&nbsp' . $row['name'] . "</option>";
-                            }
-                        } else {
-                            echo "error";
+                        $select = "SELECT name, publisher, subject FROM book WHERE id=:id";
+                        $result = $connection->prepare($select);
+                        $result->bindValue(':id', $get_bookId);
+                        $result->execute();
+                        if($result->rowCount() > 0) {
+                            $data = $result->fetch(PDO::FETCH_ASSOC);
+                            echo "<option value=" . $get_bookId . ">" . $data['publisher'] . '&nbsp&nbsp' . $data['name'] . "</option>";
+                            echo "<script type='text/javascript'>document.getElementById('subject').value='" . $data["subject"] . "';</script>";
                         }
                     } else if (isset($get_subject)) {
-                        $select = "SELECT * from book WHERE subject='$get_subject'";
-                        $result = $connection->query($select);
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<option value=" . $row['id'] . ">" . $row['publisher'] . '&nbsp&nbsp' . $row['name'] . "</option>";
-                            }
-                        } else {
-                            echo "error";
+                        $select = "SELECT * from book WHERE subject=:subject";
+                        $result = $connection->prepare($select);
+                        $result->bindValue(':subject', $get_subject);
+                        $result->execute();
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                            echo "<option value=" . $row['id'] . ">" . $row['publisher'] . '&nbsp&nbsp' . $row['name'] . "</option>";
                         }
+                        echo "<script type='text/javascript'>document.getElementById('subject').value='" . $get_subject . "';</script>";
                     } else {
                         echo "<option value=''> </option>";
                     } ?>
@@ -350,48 +346,64 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $acceptedChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890@#%^&*+=-_";
     $redeemCode = substr(str_shuffle($acceptedChar), 0, 7);
+    $dataToInsert = [$id, $overall, $content, $difficulty, $answer, $layout, $comment, $redeemCode, $bookriver];
+
     $insert = "INSERT INTO questionnaire (book, overall, content, difficulty, answer, layout, comment, redeemCode, bookriver) 
-        VALUES ('$id', '$overall', '$content', '$difficulty', '$answer', '$layout', '$comment', '$redeemCode', '$bookriver')";
-    if ($connection->query($insert) === true) {
-        echo "
-        <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js'></script>
-        <script>
-          emailjs.init('" . $emailjsToken . "');
-            var tmp = {type: '評論'};
-            emailjs.send('service_ecyjr9k', 'template_qfesiq6', tmp)
-                    .then(function(response) {
-                        console.log('SUCCESS!');
-                    }, function(error) {
-                        console.log('FAILED...', error);
-                    });
-        </script>";
-        if ($bookriver) {
-            echo "<script>
-            $('document').ready(function(){
-              var data = 'Hello, 來自書愛流動的使用者<br>成功新增評論，感謝您的協助！<br>您的抽獎兌換碼: " . $redeemCode . "<br>（評論經審核通過並完成粉專指定事項後可參加抽獎活動）';
-              $('#redeemCodeAlertBody').html(data);
-              $('#redeemCodeAlert').modal('show');
-              $('#redeemCodeAlert').on('hidden.bs.modal', function(){
-                location.href='/questionnaire.php';
-              });
-            });
-          </script>";
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $result = $connection->prepare($insert);
+    try {
+        if($result->execute($dataToInsert)){
+            echo "
+            <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js'></script>
+            <script>
+            emailjs.init('" . $emailjsToken . "');
+                var tmp = {type: '評論'};
+                emailjs.send('service_ecyjr9k', 'template_qfesiq6', tmp)
+                        .then(function(response) {
+                            console.log('SUCCESS!');
+                        }, function(error) {
+                            console.log('FAILED...', error);
+                        });
+            </script>";
+            if ($bookriver) {
+                echo "<script>
+                $('document').ready(function(){
+                var data = 'Hello, 來自書愛流動的使用者<br>成功新增評論，感謝您的協助！<br>您的抽獎兌換碼: " . $redeemCode . "<br>（評論經審核通過並完成粉專指定事項後可參加抽獎活動）';
+                $('#redeemCodeAlertBody').html(data);
+                $('#redeemCodeAlert').modal('show');
+                $('#redeemCodeAlert').on('hidden.bs.modal', function(){
+                    location.href='/questionnaire.php';
+                });
+                });
+            </script>";
+            } else {
+                echo "<script>
+                $('document').ready(function(){
+                var data = '成功新增評論，感謝您的協助！<br>您的抽獎兌換碼: " . $redeemCode . "<br>（評論經審核通過並完成粉專指定事項後可參加抽獎活動）';
+                $('#redeemCodeAlertBody').html(data);
+                $('#redeemCodeAlert').modal('show');
+                $('#redeemCodeAlert').on('hidden.bs.modal', function(){
+                    location.href='/questionnaire.php';
+                });
+                });
+            </script>";
+            }
         } else {
             echo "<script>
             $('document').ready(function(){
-              var data = '成功新增評論，感謝您的協助！<br>您的抽獎兌換碼: " . $redeemCode . "<br>（評論經審核通過並完成粉專指定事項後可參加抽獎活動）';
-              $('#redeemCodeAlertBody').html(data);
-              $('#redeemCodeAlert').modal('show');
-              $('#redeemCodeAlert').on('hidden.bs.modal', function(){
+                var data = '抱歉，發生錯誤，請再試一次';
+                $('#redeemCodeAlertBody').html(data);
+                $('#redeemCodeAlert').modal('show');
+                $('#redeemCodeAlert').on('hidden.bs.modal', function(){
                 location.href='/questionnaire.php';
-              });
+                });
             });
-          </script>";
+            </script>";
         }
-    } else {
+    } catch(PDOException $error) {
         echo "<script>
           $('document').ready(function(){
-            var data = '抱歉，發生錯誤，請再試一次';
+            var data = '抱歉，發生錯誤，請再試一次<br>error msg:" . $error . "';
             $('#redeemCodeAlertBody').html(data);
             $('#redeemCodeAlert').modal('show');
             $('#redeemCodeAlert').on('hidden.bs.modal', function(){
