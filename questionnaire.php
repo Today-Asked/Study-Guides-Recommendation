@@ -346,10 +346,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $acceptedChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890@#%^&*+=-_";
     $redeemCode = substr(str_shuffle($acceptedChar), 0, 7);
-    $dataToInsert = [$id, $overall, $content, $difficulty, $answer, $layout, $comment, $redeemCode, $bookriver];
+    $dataToInsert = ["NOW()", $id, $overall, $content, $difficulty, $answer, $layout, $comment, $redeemCode, $bookriver];
 
-    $insert = "INSERT INTO questionnaire (book, overall, content, difficulty, answer, layout, comment, redeemCode, bookriver) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $insert = "INSERT INTO questionnaire (date, book, overall, content, difficulty, answer, layout, comment, redeemCode, bookriver) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $result = $connection->prepare($insert);
     try {
         if($result->execute($dataToInsert)){
