@@ -30,8 +30,11 @@
         width: 100%;
         height: 100%;
     }
-    .team{
-      display: inline-block;
+    .intro{
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-evenly;
     }
     @media (min-width: 200px) {
         .content {
@@ -55,7 +58,7 @@
             margin-top: 55px;
         }
         .team{
-            width: 45%; 
+            width: 30%; 
         }
     }
 
@@ -151,7 +154,7 @@
     為此也十分苦惱的我們，決定打造一個交流參考書評價的平台，透過學長姐的無私經驗分享，讓學弟妹能夠省去徒勞的挑書時間，更快的找到適合自己的書籍，
     希望讓後人能夠踩在前人開拓的道路上，不再被路旁的碎石影響自己的步調。</p>
     <strong><h3>開發團隊介紹</h3></strong>
-    <center>
+    <center class="intro">
       <div class="team" id="corn" style="text-align: center">
         <img src="corn.png" style="width: 100%">
         <p><strong>玉米</strong></p>
