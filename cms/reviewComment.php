@@ -19,27 +19,28 @@ require_once "auth.php";
     <body style='margin: 1%'></body>
 <?php
 require_once "../databaseLogin.php";
-$connection = new mysqli($hostname, $username, $password, $database);
-if($connection->error) die("database connection error!");
-//else echo "Success!";
-$connection->set_charset("utf8");
+require "../connectDB.php";
 
 function createTable($review, $connection){
-    $select = "SELECT * FROM questionnaire WHERE review=$review";
-    $result = $connection->query($select);
+    $select = "SELECT * FROM questionnaire WHERE review=:review";
+    $result = $connection->prepare($select);
+    $result->bindValue(':review', $review);
+    $result->execute();
     echo "<table cellpadding=7 align=center border='1' class='table table-hover table-bordered'>\n<tr>\n";
     if($review === 0){
         echo "<th width='90px'>review&nbsp;</th>\n";
     }
     echo "<th>id</th>\n<th>書名(bookId)</th>\n<th>timestamp</th>\n<th>overall</th>\n<th>content</th>\n<th>difficulty</th>\n<th>answer</th>\n<th>layout</th>\n<th>comment</th>\n</tr>";
-    if($result->num_rows > 0){
-        while($row = $result->fetch_assoc()){
+    if($result->rowCount() > 0){
+        while($row = $result->fetch(PDO::FETCH_ASSOC)){
             $_bookId = $row["book"];
-            $_select = "SELECT * FROM book WHERE id='$_bookId'";
-            $_result = $connection->query($_select);
+            $_select = "SELECT name FROM book WHERE id=:bookId";
+            $_result = $connection->prepare($_select);
+            $_result->bindValue(':bookId', $_bookId);
+            $_result->execute();
             $bookName = "";
-            if($_result->num_rows > 0){
-                $_row = $_result->fetch_assoc();
+            if($_result->rowCount() > 0){
+                $_row = $_result->fetch(PDO::FETCH_ASSOC);
                 $bookName = $_row["name"];
             } else {
                 //echo "didn't find book with this id\n";
@@ -73,18 +74,21 @@ createTable(1, $connection);
 echo "<br><br><h2>審核不通過</h2><br>";
 createTable(-1, $connection);
 
-$id = $_GET["id"];
-$pass = $_GET["review"];
-if(isset($id)){
+
+if(isset($_GET["id"])){
+    $id = $_GET["id"];
+    $pass = $_GET["review"];
+    $data = [$id];
     if($pass == 1){
-        $update = "UPDATE questionnaire SET review=1 WHERE id='$id'";
-
+        $update = "UPDATE questionnaire SET review=1 WHERE id=?";
+        
         // test redeemCode
-        $select = "SELECT * FROM questionnaire WHERE id='$id'";
-        $_result = $connection -> query($select);
-        if($_result->num_rows > 0){
-            $row = $_result->fetch_assoc();
-
+        $select = "SELECT * FROM questionnaire WHERE id=:id";
+        $_result = $connection->prepare($select);
+        $_result->bindValue(':id', $id);
+        $_result->execute();
+        if($_result->rowCount() > 0){
+            $row = $_result->fetch(PDO::FETCH_ASSOC);
             $redeemCode = $row["redeemCode"];
             $bookId = $row["book"];
             $overall = $row["overall"];
@@ -92,7 +96,6 @@ if(isset($id)){
             $content = $row["content"];
             $answer = $row["answer"];
             $layout = $row["layout"];
-
             $fields = [
                 'redeemCode' => $redeemCode
             ];
@@ -112,21 +115,22 @@ if(isset($id)){
             echo "<script>console.log('*" . $error . " " . $statusCode . "');</script>";
             curl_close($ch);
             
-            $selectBook = "SELECT * FROM book WHERE id='$bookId'";
-            $result = $connection->query($selectBook);
-            if($result->num_rows > 0){
-                while($row = $result->fetch_assoc()){
-                    echo "<script>var bookName = " . $row["name"] . ";</script>";
-                    $dataAmount = $row['dataAmount'];
-                    $_overall = $row['overall'];
-                    $_content = $row['content'];
-                    $_difficulty = $row['difficulty'];
-                    $_answer = $row['answer'];
-                    $_layout = $row['layout'];
-                    echo "<script>window.console.log('dataAmount: " . $dataAmount . "')</script>";
-                }
+            $selectBook = "SELECT * FROM book WHERE id=:bookId";
+            $selectBookResult = $connection->prepare($selectBook);
+            $selectBookResult->bindValue(':bookId', $bookId);
+            $selectBookResult->execute();
+            if($selectBookResult->rowCount() > 0){
+                $row = $selectBookResult->fetch(PDO::FETCH_ASSOC);
+                echo "<script>var bookName = '" . $row["name"] . "';</script>";
+                $dataAmount = $row['dataAmount'];
+                $_overall = $row['overall'];
+                $_content = $row['content'];
+                $_difficulty = $row['difficulty'];
+                $_answer = $row['answer'];
+                $_layout = $row['layout'];
+                echo "<script>window.console.log('dataAmount: " . $dataAmount . "')</script>";
             } else {
-                echo "<script>window.console.log('select data error')</script>"; 
+                echo "<script>window.console.log('cannot find the book')</script>"; 
             }
 
             $newOverall = ($dataAmount * $_overall + $overall) / ($dataAmount + 1);
@@ -135,18 +139,31 @@ if(isset($id)){
             $newAnswer = ($dataAmount * $_answer + $answer) / ($dataAmount + 1);
             $newLayout = ($dataAmount * $_layout + $layout) / ($dataAmount + 1);
             $newDataAmount = $dataAmount + 1;
-            $updateBook = "UPDATE book SET dataAmount='$newDataAmount', overall='$newOverall', content='$newContent', 
-                difficulty='$newDifficulty', answer='$newAnswer', layout='$newLayout' WHERE id='$bookId'";
-            if($connection->query($updateBook) === true){
-                echo "<script>window.console.log('update data successfully')</script>";
-            } else {
-                echo "<script>window.console.log('fail to update data')</script>";
+            $_data = [$newDataAmount, $newOverall, $newContent, $newDifficulty, $newAnswer, $newLayout, $bookId];
+            $updateBook = "UPDATE book SET dataAmount=?, overall=?, content=?, 
+                difficulty=?, answer=?, layout=? WHERE id=?";
+            $updateBookResult = $connection->prepare($updateBook);
+            try {
+                if(!$updateBookResult->execute($_data)){
+                    echo "<script>window.console.log('fail to update that book')</script>"; 
+                } else {
+                    echo "<script>window.console.log('update book success')</script>"; 
+                }
+            } catch (PDOException $error) {
+                echo "<script>window.console.log('cannot find the book\nerror msg: " . $error . "')</script>"; 
             }
         }
     } else {
-        $update = "UPDATE questionnaire SET review=-1 WHERE id='$id'";
+        $update = "UPDATE questionnaire SET review=-1 WHERE id=?";
     }
-    $result = $connection->query($update);
+    $result = $connection->prepare($update);
+    try {
+        if(!$result->execute($data)){
+            echo "<script>window.console.log('fail to review data')</script>";
+        }
+    } catch (PDOException $error) {
+        echo "<script>window.console.log('fail to review data\nerror msg: " . $error . "')</script>";
+    }
     //echo "<script>console.log('success');</script>";
     echo "<script>location.href = '/cms/reviewComment.php';</script>";
 }

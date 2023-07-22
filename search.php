@@ -1,10 +1,7 @@
 <?php
 echo "<head><meta name='robots' content='noindex'></head>";
 require_once "databaseLogin.php";
-$connection = new mysqli($hostname, $username, $password, $database);
-if($connection->error) die("database connection error!".$connection->connnect_error);
-//else echo "Success!";
-$connection->set_charset("utf8");
+require "connectDB.php";
 
 function test_input($data) {
     $data = trim($data);
@@ -25,12 +22,14 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
         $cnt[$i] = 0;
     }
     for($i = 1; $search[$i] != "%%%%"; $i = $i + 1){
-        $select = "SELECT id, name FROM book WHERE name LIKE '$search[$i]'";
+        $select = "SELECT id, name FROM book WHERE name LIKE :search";
         //echo $select . "<br>";
-        $result = $connection->query($select);
-        if($result -> num_rows > 0){
+        $result = $connection->prepare($select);
+        $result->bindValue(':search', $search[$i]);
+        $result->execute();
+        if($result->rowCount() > 0){
             //echo $search[$i] . ":<br>";
-            while($row = $result -> fetch_assoc()){
+            while($row = $result->fetch(PDO::FETCH_ASSOC)){
                 $cnt[$row["id"]] = $cnt[$row["id"]] + 1;
                 //echo "    " . $row["id"] . " " . $row["name"] . "<br>";
             }
@@ -44,10 +43,12 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
     for($i = 1; $i < 200; $i = $i + 1){
         if($cnt[$i] > $threshold){
             $flag = 1;
-            $select = "SELECT name, subject, publisher FROM book WHERE id='$i'";
-            $result = $connection->query($select);
-            if($result->num_rows > 0){
-                $row = $result -> fetch_assoc();
+            $select = "SELECT name, subject, publisher FROM book WHERE id=:i";
+            $result = $connection->prepare($select);
+            $result->bindValue(':i', $i);
+            $result->execute();
+            if($result->rowCount() > 0){
+                $row = $result -> fetch(PDO::FETCH_ASSOC);
                 echo $row["publisher"] . "    " . $row["subject"] . "    " . $row["name"] . "\u000a";
             }
         }

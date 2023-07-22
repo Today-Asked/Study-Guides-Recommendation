@@ -218,12 +218,6 @@
 </html>
 
 <?php
-require_once "databaseLogin.php";
-$connection = new mysqli($hostname, $username, $password, $database);
-if ($connection->error) die("database connection error!");
-//else echo "Success!";
-$connection->set_charset("utf8");
-
 function test_input($data)
 {
     $data = trim($data);

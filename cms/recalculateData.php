@@ -2,14 +2,12 @@
 require_once "auth.php";
 
 require_once "../databaseLogin.php";
-$connection = new mysqli($hostname, $username, $password, $database);
-if($connection->error) die("database connection error!");
-//else echo "Success!";
-$connection->set_charset("utf8");
+require "../connectDB.php";
 
 $select = "SELECT * FROM book";
-$result = $connection->query($select);
-while($row = $result->fetch_assoc()){
+$result = $connection->prepare($select);
+$result->execute();
+while($row = $result->fetch(PDO::FETCH_ASSOC)){
     $id = $row['id'];
     $dataAmount = 0;
     $overall = 0;
@@ -19,8 +17,9 @@ while($row = $result->fetch_assoc()){
     $layout = 0;
 
     $_select = "SELECT * FROM questionnaire WHERE book='$id' AND review=1";
-    $_result = $connection->query($_select);
-    while($_row = $_result->fetch_assoc()){
+    $_result = $connection->prepare($_select);
+    $_result->execute();
+    while($_row = $_result->fetch(PDO::FETCH_ASSOC)){
         $overall = ($overall * $dataAmount + $_row['overall']) / ($dataAmount + 1);
         $content = ($content * $dataAmount + $_row['content']) / ($dataAmount + 1);
         $difficulty = ($difficulty * $dataAmount + $_row['difficulty']) / ($dataAmount + 1);
@@ -30,10 +29,16 @@ while($row = $result->fetch_assoc()){
     }
     $updateBook = "UPDATE book SET dataAmount='$dataAmount', overall='$overall', content='$content', 
         difficulty='$difficulty', answer='$answer', layout='$layout' WHERE id='$id'";
-    if($connection->query($updateBook) === true){
-        echo "update data successfully<br />";
-    } else {
-        echo "fail to update data";
+    $updateResult = $connection->prepare($updateBook);
+    try {
+        if($updateResult->execute()){
+            echo "重新計算編號 " . $id . " 的書籍成功<br>";
+        } else {
+            echo "編號 " . $id . "的書籍更新失敗<br>";
+        }
+
+    } catch (PDOException $error) {
+        echo "編號 " . $id . "的書籍更新失敗<br>error msg: " . $error . "<br>";
     }
 }
 ?>
