@@ -8,6 +8,7 @@ $database = "";
 $acc = "";
 $pwd = "";
 
+$imgurClientId = "";
 $mailerliteAPIToken = "";
 $verifyConst = [0, 0, 0, 0, 0];
 

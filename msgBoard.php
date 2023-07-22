@@ -1,10 +1,7 @@
 <?php
 echo "<head><meta name='robots' content='noindex'></head>";
 require_once "databaseLogin.php";
-$connection = new mysqli($hostname, $username, $password, $database);
-if($connection->error) die("database connection error!".$connection->connnect_error);
-//else echo "Success!";
-$connection->set_charset("utf8");
+require "connectDB.php";
 
 function test_input($data) {
     $data = trim($data);
@@ -18,11 +15,13 @@ if($_SERVER["REQUEST_METHOD"] == "GET") { // study or emo
     if($category == 0) $type = "studyPlan";
     else $type = "emotion";
     echo "<script>console.log('" . $category . "');</script>";
-    $select = "SELECT * FROM msgBoard WHERE category='$category' AND review=1";
-    $result = $connection->query($select);
-    if($result->num_rows > 0){
+    $select = "SELECT * FROM msgBoard WHERE category=:category AND review=1";
+    $result = $connection->prepare($select);
+    $result->bindValue(':category', $category);
+    $result->execute();
+    if($result->rowCount() > 0){
         $flag = 0;
-        while($row = $result -> fetch_assoc()){
+        while($row = $result->fetch(PDO::FETCH_ASSOC)){
             if($flag == 1){
                 echo "<hr style='margin-left: 1%; margin-right: 1%;'>";
             }

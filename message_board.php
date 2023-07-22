@@ -274,10 +274,7 @@
 
 <?php
 require_once "databaseLogin.php";
-$connection = new mysqli($hostname, $username, $password, $database);
-if($connection->error) die("database connection error!".$connection->connnect_error);
-//else echo "Success!";
-$connection->set_charset("utf8");
+require "connectDB.php";
 
 function test_input($data) {
     $data = trim($data);
@@ -297,35 +294,50 @@ if($_SERVER["REQUEST_METHOD"] == "POST") { // insert data
     } else {
         $category = 1;
     }
-    $insert = "INSERT INTO msgBoard (category, title, msg, redeemCode) VALUES ('$category', '$title', '$msg', '$redeemCode')";
-    if($connection->query($insert) === true){
-        echo "
-        <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js'></script>
-        <script>
-          emailjs.init('" . $emailjsToken . "');
-            var tmp = {type: '留言'};
-            emailjs.send('service_ecyjr9k', 'template_qfesiq6', tmp)
-                    .then(function(response) {
-                        console.log('SUCCESS!');
-                    }, function(error) {
-                        console.log('FAILED...', error);
-                    });
-        </script>";
-        if($category == 0){
-            echo "<script>
-                $('document').ready(function(){
-                    var data = '留言成功，經審核後就會出現在留言板上囉！<br>您的抽獎兌換碼: " . $redeemCode . "<br>（評論經審核通過並完成粉專指定事項後可參加抽獎活動）';
-                    $('#redeemCodeAlertBody').html(data);
-                    $('#redeemCodeAlert').modal('show');
-                    $('#redeemCodeAlert').on('hidden.bs.modal', function(){
-                        location.href='/message_board.php';
-                    });
-                });
+    $data = [$category, $title, $msg, $redeemCode];
+    $insert = "INSERT INTO msgBoard (category, title, msg, redeemCode) VALUES (?, ?, ?, ?)";
+    $result = $connection->prepare($insert);
+    try {
+        if($result->execute($data)){
+            echo "
+            <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js'></script>
+            <script>
+            emailjs.init('" . $emailjsToken . "');
+                var tmp = {type: '留言'};
+                emailjs.send('service_ecyjr9k', 'template_qfesiq6', tmp)
+                        .then(function(response) {
+                            console.log('SUCCESS!');
+                        }, function(error) {
+                            console.log('FAILED...', error);
+                        });
             </script>";
+            if($category == 0){
+                echo "<script>
+                    $('document').ready(function(){
+                        var data = '留言成功，經審核後就會出現在留言板上囉！<br>您的抽獎兌換碼: " . $redeemCode . "<br>（評論經審核通過並完成粉專指定事項後可參加抽獎活動）';
+                        $('#redeemCodeAlertBody').html(data);
+                        $('#redeemCodeAlert').modal('show');
+                        $('#redeemCodeAlert').on('hidden.bs.modal', function(){
+                            location.href='/message_board.php';
+                        });
+                    });
+                </script>";
+            } else {
+                echo "<script>
+                    $('document').ready(function(){
+                        var data = '留言成功，經審核後就會出現在留言板上囉！';
+                        $('#redeemCodeAlertBody').html(data);
+                        $('#redeemCodeAlert').modal('show');
+                        $('#redeemCodeAlert').on('hidden.bs.modal', function(){
+                            location.href='/message_board.php';
+                        });
+                    });
+                </script>";
+            }
         } else {
             echo "<script>
                 $('document').ready(function(){
-                    var data = '留言成功，經審核後就會出現在留言板上囉！';
+                    var data = '留言失敗，請再試一次';
                     $('#redeemCodeAlertBody').html(data);
                     $('#redeemCodeAlert').modal('show');
                     $('#redeemCodeAlert').on('hidden.bs.modal', function(){
@@ -334,10 +346,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST") { // insert data
                 });
             </script>";
         }
-    } else {
+    } catch (PDOException $error){
         echo "<script>
             $('document').ready(function(){
-                var data = '留言失敗，請再試一次';
+                var data = '留言失敗，請再試一次<br>error msg: " . $error . "';
                 $('#redeemCodeAlertBody').html(data);
                 $('#redeemCodeAlert').modal('show');
                 $('#redeemCodeAlert').on('hidden.bs.modal', function(){
