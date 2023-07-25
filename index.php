@@ -64,7 +64,7 @@
     <div id="header">
         <nav class="navbar navbar-light fixed-top" style="background-color: #94c0af" ;>
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.php"><img src="icon.png" style="object-fit: cover; height: 55px;"></a>
+                <a class="navbar-brand" href="index.php"><img src="https://i.imgur.com/vkflx0C.png" style="object-fit: cover; height: 55px;"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -154,37 +154,6 @@
                 <p>如果你只是進來走走逛逛，或者想分享自己的讀書方法，也歡迎你在留言板下留下你的心情以及想分享的事物喔！</p>
                 <a href="message_board.php" type="button" class="btn" style="background-color: #487878; color: white;">現在去</a>
             </div>
-        </div>
-        <div class="content" id="collaborate">
-            <h3>合作夥伴-書愛流動</h3>
-            <p>
-                「書愛流動」是一個讓二手學習用書流動的平台，以二手學習用書的交換達到循環經濟，使資源達到最大的效益的運用，減少地球資源的耗損。<br>
-                參考書推薦平台這次也與書愛流動合作，讓使用者能夠在物色參考書、或是撰寫評論的同時，能夠有更流暢的使用體驗。<BR>
-                合作內容如下：
-            </p>
-            <div class="icon" id="find">
-                <img class="" src="find.png" alt="Emoji icons created by Smashicons - Flaticon">
-                <strong>
-                    <p>找二手更便利</p>
-                </strong>
-                <p>在書籍的詳情頁面底部，按下「找二手」按鈕即可直接連至書愛流動的官網，找找有沒有人捐贈這本書。</p>
-            </div>
-            <div class="icon" id="badge">
-                <img class="" src="badge.png" alt="Emoji icons created by Smashicons - Flaticon">
-                <strong>
-                    <p>具徽章更可信</p>
-                </strong>
-                <p>曾經在書愛流動平台捐書或取書的用戶，其撰寫的評論將會有特別徽章標記，使該則評論更具有可信度。</p>
-            </div>
-            <div class="icon" id="coin">
-                <img class="" src="coin.png" alt="Emoji icons created by Smashicons - Flaticon">
-                <strong>
-                    <p>留言兌換書籍</p>
-                </strong>
-                <p>凡是為參考書評分或在留言版留言，經人工審核通過後便能獲得知識貨幣，在書愛流動網站換取參考書籍。</p>
-            </div>
-            <BR>
-            <a href="https://booksriver.q23rf.repl.co/" class="btn btn-success" target="_blank">前往書愛流動</a>
         </div>
 
         <!-- 電子報 -->
