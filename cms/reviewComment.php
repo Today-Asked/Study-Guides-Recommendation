@@ -15,6 +15,7 @@ require_once "auth.php";
             }
         </script>
         <meta name="robots" content="noindex">
+        <title>審核評論</title>
     </head>
     <body style='margin: 1%'></body>
 <?php
