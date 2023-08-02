@@ -67,6 +67,15 @@ function test_input($data) {
         gtag('js', new Date());
         gtag('config', 'G-ZXCEF0Q5KK');
     </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-35LSXM0QBG"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-35LSXM0QBG');
+    </script>
     <script>
         $('document').ready(function(){
             $("#bookname").blur(function(){
