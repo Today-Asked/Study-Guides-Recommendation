@@ -17,7 +17,11 @@ require_once "auth.php";
         <meta name="robots" content="noindex">
         <title>審核評論</title>
     </head>
-    <body style='margin: 1%'></body>
+    <body style='margin: 1%'>
+        <a href='#not-reviewed'>未審核評論</a><br/>
+        <a href='#review-pass'>審核通過</a><br/>
+        <a href='#review-fail'>審核未通過</a><br/><br/>
+    </body>
 <?php
 require_once "../databaseLogin.php";
 require "../connectDB.php";
@@ -69,11 +73,11 @@ function createTable($review, $connection){
     echo "</table>";
 }
 
-echo "<h2>未審核</h2><br>";
+echo "<h2 id='not-reviewed'>未審核</h2><br>";
 createTable(0, $connection);
-echo "<br><br><h2>審核通過</h2><br>";
+echo "<br><br><h2 id='review-pass'>審核通過</h2><br>";
 createTable(1, $connection);
-echo "<br><br><h2>審核不通過</h2><br>";
+echo "<br><br><h2 id='review-fail'>審核不通過</h2><br>";
 createTable(-1, $connection);
 
 
