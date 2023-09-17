@@ -23,7 +23,7 @@ require_once "../databaseLogin.php";
 require "../connectDB.php";
 
 function createTable($review, $connection){
-    $select = "SELECT * FROM questionnaire WHERE review=:review";
+    $select = "SELECT * FROM questionnaire WHERE review=:review ORDER BY id DESC";
     $result = $connection->prepare($select);
     $result->bindValue(':review', $review);
     $result->execute();
@@ -31,7 +31,7 @@ function createTable($review, $connection){
     if($review === 0){
         echo "<th width='90px'>review&nbsp;</th>\n";
     }
-    echo "<th>id</th>\n<th>書名(bookId)</th>\n<th>timestamp</th>\n<th>overall</th>\n<th>content</th>\n<th>difficulty</th>\n<th>answer</th>\n<th>layout</th>\n<th>comment</th>\n</tr>";
+    echo "<th>id</th>\n<th>書名(bookId)</th>\n<th>timestamp</th>\n<th>overall</th>\n<th>content</th>\n<th>difficulty</th>\n<th>answer</th>\n<th>layout</th>\n<th>comment</th>\n<th>redeemCode</th>\n</tr></tr>";
     if($result->rowCount() > 0){
         while($row = $result->fetch(PDO::FETCH_ASSOC)){
             $_bookId = $row["book"];
@@ -60,6 +60,7 @@ function createTable($review, $connection){
             echo "<td>" . $row["answer"] . "</td>\n";  
             echo "<td>" . $row["layout"] . "</td>\n";
             echo "<td>" . $row["comment"] . "</td>\n";
+            echo "<td>" . $row["redeemCode"] . "</td>\n";
             echo "</tr>";
         }
     } else {
